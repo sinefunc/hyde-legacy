@@ -2,9 +2,9 @@ require 'haml'
 require 'less'
 require 'yaml'
 
-require 'page'
-require 'renderer'
-require 'project'
+require 'hyde/page'
+require 'hyde/renderer'
+require 'hyde/project'
 
 module Hyde
   class NotFound < Exception

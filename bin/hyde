@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+$:.unshift File.dirname(__FILE__) + "/../lib"
+
+require 'optparse'
+require 'rubygems'
+require 'hyde'
+
+options = {
+}
+
+opts = OptionParser.new do |o|
+  o.banner = "usage: hyde [stuff]"
+  o.separator ""
+
+  o.on("-w", "--watch", "watch for changes") do
+    options[:watch] = true
+  end
+
+  o.separator ""
+
+  # Help
+  o.on_tail("-h", "--help", "show this message") do
+    puts opts
+    exit
+  end
+end
+
+opts.parse!
