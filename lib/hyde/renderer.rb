@@ -11,13 +11,13 @@ module Hyde
         @page = page
       end
 
-      def render
+      def render( data = {} )
         ""
       end
     end
 
     class Parsable < Base
-      @data = ""
+      @markup = ""
       @parts = []
 
       def initialize( page )
@@ -26,10 +26,10 @@ module Hyde
         @parts = get_file_parts @page.filename, :max_parts => 2
         if @parts.length == 1
           # If it doesn't come with a header, assume the whole file is the data
-          @data = @parts[0]
+          @markup = @parts[0]
         else
-          @meta = @parts[0]
-          @data = @parts[1]
+          @markup = @parts[1]
+          page.set_meta YAML::load("--- " + @parts[0])
         end
       end
 
@@ -53,7 +53,7 @@ module Hyde
     end
 
     class Passthru < Base
-      def render
+      def render( data = {} )
         data = ""
         File.open(@page.filename, "r").each_line { |line| data << line }
         data
@@ -61,9 +61,23 @@ module Hyde
     end
 
     class HAML < Parsable
-      def render
-        @engine = ::Haml::Engine.new(@data, {})
-        @engine.render
+      def render( data = {} )
+        @engine = ::Haml::Engine.new(@markup, {})
+
+        if data.is_a? Hash
+          @engine.render ObjectHash.new data
+        else
+          @engine.render data
+        end
+      end
+    end
+
+    class ObjectHash
+      def initialize( hash )
+        @hash = hash
+      end
+      def method_missing(meth, *args, &blk)
+        @hash[meth.to_s]
       end
     end
   end
