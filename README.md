@@ -1,17 +1,28 @@
 Hyde
 ====
 
+Installation
+------------
 
-To do:
+    gem install hyde
 
- - cli
- - config
+Usage
+-----
+
+    hyde create <project_name>
+    cd <project_name>
+    hyde serve
+
+To do
+-----
+
  - ignores
- - _meta.yml 
- - baker
+ - hyde build
  - partials support
  - extensions support
  - more renderers
    - less
    - markdown
    - textile
+
+ - _meta.yml 

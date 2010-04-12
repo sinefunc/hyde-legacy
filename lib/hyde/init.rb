@@ -12,7 +12,8 @@ class Main
   
   get '/*' do
     begin
-      Hyde::PROJECT.render params[:splat].to_s
+      @project ||= Hyde::Project.new
+      @project.render params[:splat].to_s
     rescue Hyde::NotFound
       raise Sinatra::NotFound
     end

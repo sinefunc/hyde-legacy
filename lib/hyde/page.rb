@@ -1,27 +1,32 @@
 module Hyde
   class Page 
     @parts = nil
-    @filename = []
+    @filename = nil
     @renderer = nil
-    @meta = {}
+    @meta = nil
     @basepath = nil
     @page
     @layout = nil
+    @project
 
     attr_accessor :filename
     attr_accessor :meta
     attr_accessor :data
     attr_accessor :page
 
+    attr_reader :project
+
     # Constructor.
     #
     # The `p_page` is a page name
-    def initialize( p_page )
+    def initialize( p_page, project )
+      @project = project
       @page ||= p_page
-      @basepath ||= PROJECT.root
+      @basepath ||= @project.root
+      @meta ||= {}
 
       renderer = nil
-      PROJECT.renderers.each do |extension, r|
+      @project.renderers.each do |extension, r|
         @filename = "#{@basepath}/#{@page}#{extension}"
         if File.exists? @filename
           @renderer = r.new self
@@ -36,9 +41,9 @@ module Hyde
 
     # Returns the rendered output.
     def render( data = {} )
-       output = @renderer.render data
+       output = @renderer.render(@meta.merge data)
        unless @layout.nil?
-         hash = { "content" => output }
+         hash = @meta.merge({ "content" => output })
          output = @layout.render hash
        end
        output
@@ -57,14 +62,14 @@ module Hyde
       @meta.merge! meta
 
       # Set the Layout
-      @layout = Layout.new @meta['layout'] if @meta['layout']
+      @layout = Layout.new(@meta['layout'], @project) if @meta['layout']
     end
   end
 
   class Layout < Page
-    def initialize( p_template )
-      @basepath = PROJECT.root + "/_layouts"
-      super p_template
+    def initialize( template, project )
+      @basepath = project.layouts_root
+      super template, project
     end
   end
 end

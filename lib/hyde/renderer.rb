@@ -22,7 +22,8 @@ module Hyde
 
       def initialize( page )
         super page
-
+        
+        # Parse out the file's metadata and markup contents
         @parts = get_file_parts @page.filename, :max_parts => 2
         if @parts.length == 1
           # If it doesn't come with a header, assume the whole file is the data
