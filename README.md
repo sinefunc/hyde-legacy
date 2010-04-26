@@ -11,18 +11,19 @@ Usage
 
     hyde create <project_name>
     cd <project_name>
-    hyde serve
+    hyde start
 
 To do
 -----
 
- - ignores
- - hyde build
  - partials support
- - extensions support
  - more renderers
    - less
    - markdown
    - textile
+
+ - ignores
+ - hyde build
+ - extensions support
 
  - _meta.yml 

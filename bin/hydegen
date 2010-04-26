@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+lib_path = File.dirname(__FILE__) + "/../lib"
+$:.unshift lib_path
+
+require 'optparse'
+require 'rubygems'
+require 'hydegen'
+
+options = {
+}
+
+opts = OptionParser.new do |o|
+  o.banner = "usage: hydegen <action> [<options>]"
+  o.separator ""
+
+  #o.on("-w", "--watch", "watch for changes") do
+  #  options[:watch] = true
+  #end
+
+  o.separator "Actions:"
+  o.separator "    start           - Starts a server"
+  o.separator "    build           - Creates HTML files"
+  o.separator "    create <name>   - Starts a project"
+  o.separator ""
+  o.separator "Options:"
+
+  # Help
+  o.on_tail("-h", "--help", "show this message") do
+    puts opts
+    exit
+  end
+end
+
+opts.parse!
+options[:action] = ARGV[0]
+options[:params] = []
+(1...ARGV.size).each { |i| options[:params] << ARGV[i] }
+
+if options[:action] == 'start'
+  system "ruby #{lib_path}/hydegen/init.rb"
+
+elsif options[:action] == 'build'
+  Hyde::Project.new.build
+
+elsif options[:action] == 'create'
+  unless options[:params].size == 1
+    puts opts
+  else
+    begin
+      Dir.mkdir options[:params][0]
+    rescue Errno::EEXIST
+      puts "Error: this directory already exists"
+    end
+
+    # TODO: Magic here
+  end
+
+else
+  puts opts
+end

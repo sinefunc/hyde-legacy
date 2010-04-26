@@ -1,14 +1,15 @@
-module Hyde
+require "ostruct"
+
+module Hydegen
   module Renderer
     class Base
-      @page = nil
-      @meta = {}
-
       attr_reader :meta
       attr_reader :page
 
-      def initialize( page )
+      def initialize( page, filename )
+        @meta = {}
         @page = page
+        @filename = filename
       end
 
       def render( data = {} )
@@ -16,21 +17,21 @@ module Hyde
       end
     end
 
+    # Any filetype that is split with the -- separator
     class Parsable < Base
       @markup = ""
-      @parts = []
 
-      def initialize( page )
-        super page
+      def initialize(page, filename)
+        super page, filename
         
         # Parse out the file's metadata and markup contents
-        @parts = get_file_parts @page.filename, :max_parts => 2
-        if @parts.length == 1
+        parts = get_file_parts filename, :max_parts => 2
+        if parts.length == 1
           # If it doesn't come with a header, assume the whole file is the data
-          @markup = @parts[0]
+          @markup = parts[0]
         else
-          @markup = @parts[1]
-          page.set_meta YAML::load("--- " + @parts[0])
+          @markup = parts[1]
+          page.set_meta YAML::load("--- " + parts[0])
         end
       end
 
@@ -58,27 +59,6 @@ module Hyde
         data = ""
         File.open(@page.filename, "r").each_line { |line| data << line }
         data
-      end
-    end
-
-    class HAML < Parsable
-      def render( data = {} )
-        @engine = ::Haml::Engine.new(@markup, {})
-
-        if data.is_a? Hash
-          @engine.render ObjectHash.new data
-        else
-          @engine.render data
-        end
-      end
-    end
-
-    class ObjectHash
-      def initialize( hash )
-        @hash = hash
-      end
-      def method_missing(meth, *args, &blk)
-        @hash[meth.to_s]
       end
     end
   end
