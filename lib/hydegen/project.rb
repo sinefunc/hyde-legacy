@@ -1,9 +1,21 @@
 module Hydegen
   class Project
-    attr :root, :layouts_root, :extensions_root, :site_root,
-         :config_file
 
-    attr_reader :root
+    # The root path (String).
+    #   root
+    #   root :layouts
+    #   root :site, 'blah'
+    def root(*args)
+      where = ''
+      where = send("#{args.shift.to_s}_path")  if args[0].class == Symbol
+      path = args
+      File.join [@root, where, path].reject(&:empty?)
+    end
+
+    # The filename of the configuration file, relative to the project root.
+    attr :config_file
+
+    # The configuration k/v storage (Hash)
     attr_accessor :config
 
     def initialize( root = Dir.pwd )
@@ -18,6 +30,7 @@ module Hydegen
       @config.send meth
     end
 
+    # Can throw a NotFound.
     def render( pathname )
       pathname = "index.html"  if pathname.empty?
       page = Page.new pathname, self
@@ -27,28 +40,35 @@ module Hydegen
     def build
       # Can error
       Dir.mkdir @site_root  unless File.exists? @site_root
+      files.each do |file|
+        output = File.join(root, site_path, file)
+        # mkdir and open output
+        # render file
+      end
     end
 
     # Returns a list of all URLs
     def files
       @file_list ||= Dir[File.join(root, '**', '*')].inject([]) do |a, match|
-        file = match.gsub /^#{Regexp.escape root}/, ''
-        file.gsub! /^\/+/, ''
+        # Make sure its the canonical name
+        path = File.expand_path(match)
+        file = path.gsub /^#{Regexp.escape root}\/?/, ''
+        ext  = File.extname(file)[1..-1]
+        
+        ignore_list = [
+          root(:layouts, '**/*'),
+          root(:extensions, '**/*'),
+          root(:output, '**/*'),
+          @config_file
+        ]
 
-        ext = File.extname(file)[1..-1]
+        ignore_files = ignore_list.inject([]) { |a, spec|
+          Dir[spec].each { |file| a << File.expand_path(file) }; a
+        }
 
-        # TODO: Ugly
-        if /^#{Regexp.escape layouts_path}/.match file
-          #
-        elsif /^#{Regexp.escape extensions_path}/.match file
-          #
-        elsif /^#{Regexp.escape site_path}/.match file
-          #
-        elsif "#{@root}/#{file}" == @config_file
-          #
-        elsif Dir.exists? "#{@root}/#{file}"
-          #
-        elsif not get_renderer(ext).nil?
+        if ignore_files.include?(path) or Dir.exists?(match)
+          # pass
+        elsif not get_renderer(ext).nil? # Has a renderer associated
           a << file.chomp(".#{ext}")
         else
           a << file
@@ -61,7 +81,8 @@ module Hydegen
     def defaults
       { 'layouts_path'    => '_layouts',
         'extensions_path' => '_extensions',
-        'site_path'       => '_site'
+        'site_path'       => '_site',
+        'output_path'     => '_output'
       }
     end
 

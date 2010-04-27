@@ -22,8 +22,8 @@ To do
    - markdown
    - textile
 
- - ignores
  - hyde build
+ - hyde gen
  - extensions support
 
  - _meta.yml 

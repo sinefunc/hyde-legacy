@@ -8,6 +8,7 @@ module Hydegen
   autoload :Page,       "#{prefix}/hydegen/page"
   autoload :Renderer,   "#{prefix}/hydegen/renderer"
   autoload :Renderers,  "#{prefix}/hydegen/renderers"
+  autoload :Utils,      "#{prefix}/hydegen/utils"
 
   class NotFound < Exception
   end

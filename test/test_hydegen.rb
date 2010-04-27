@@ -1,16 +1,15 @@
 require 'helper'
 
 class TestHyde < Test::Unit::TestCase
-  def setup
-    @project = get_project 'default'
-  end
-
-  def get_project(site)
-    Hydegen::Project.new fixture(site)
-  end
-
-  def fixture(site)
-    File.dirname(__FILE__) + '/fixtures/' + site
+  should "return the right paths" do
+    root_path = fixture 'default'
+    assert_same_file root_path, @project.root
+    assert_same_file File.join(root_path, '_layouts'), \
+                 @project.root(:layouts)
+    assert_same_file File.join(root_path, '_layouts', 'abc'), \
+                 @project.root(:layouts, 'abc')
+    assert_same_file File.join(root_path, 'layouts', 'abc'), \
+                 @project.root('layouts', 'abc')
   end
 
   should "Do things" do
@@ -37,6 +36,9 @@ class TestHyde < Test::Unit::TestCase
     assert files.include? 'layout_test.html'
     assert !files.include?('about')
     assert !files.include?('about/')
+    assert !files.include?('_config.yml')
+    assert !files.include?('layout/default')
+    assert !files.include?('layout/default.haml')
     assert !files.include?('layout_test.html.haml')
     puts files
   end
