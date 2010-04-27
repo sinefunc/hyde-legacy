@@ -1,6 +1,18 @@
 require 'helper'
 
 class TestHyde < Test::Unit::TestCase
+  def setup(site = 'default')
+    @project = get_project site
+  end
+
+  def get_project(site)
+    Hyde::Project.new fixture(site)
+  end
+
+  def fixture(site)
+    File.join File.dirname(__FILE__), 'fixtures', site
+  end
+
   should "return the right paths" do
     root_path = fixture 'default'
     assert_same_file root_path, @project.root
@@ -40,6 +52,5 @@ class TestHyde < Test::Unit::TestCase
     assert !files.include?('layout/default')
     assert !files.include?('layout/default.haml')
     assert !files.include?('layout_test.html.haml')
-    puts files
   end
 end

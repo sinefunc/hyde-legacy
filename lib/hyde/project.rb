@@ -1,5 +1,6 @@
 module Hyde
   class Project
+    include Hyde::Utils
 
     # The root path (String).
     #   root
@@ -27,7 +28,7 @@ module Hyde
     end
 
     def method_missing(meth, *args, &blk)
-      @config.send meth
+      @config.send meth # SHOULD SEND AND ERROR!!
     end
 
     # Can throw a NotFound.
@@ -38,12 +39,13 @@ module Hyde
     end
 
     def build
-      # Can error
-      Dir.mkdir @site_root  unless File.exists? @site_root
-      files.each do |file|
-        output = File.join(root, site_path, file)
-        # mkdir and open output
-        # render file
+      raise Errno::EEXISTS  if File.exists? root(:output) and not Dir.exists? root(:output)
+      Dir.mkdir root(:output)  unless Dir.exists? root(:output)
+
+      files.each do |filename|
+        mfile = force_file_open(root(:output), filename)
+        mfile << render(filename)
+        mfile.close
       end
     end
 
@@ -55,18 +57,7 @@ module Hyde
         file = path.gsub /^#{Regexp.escape root}\/?/, ''
         ext  = File.extname(file)[1..-1]
         
-        ignore_list = [
-          root(:layouts, '**/*'),
-          root(:extensions, '**/*'),
-          root(:output, '**/*'),
-          @config_file
-        ]
-
-        ignore_files = ignore_list.inject([]) { |a, spec|
-          Dir[spec].each { |file| a << File.expand_path(file) }; a
-        }
-
-        if ignore_files.include?(path) or Dir.exists?(match)
+        if ignored_files.include?(path) or Dir.exists?(match)
           # pass
         elsif not get_renderer(ext).nil? # Has a renderer associated
           a << file.chomp(".#{ext}")
@@ -75,6 +66,21 @@ module Hyde
         end
         a
       end
+    end
+
+    def ignore_list
+      @ignote_list ||= [
+        root(:layouts, '**/*'),
+        root(:extensions, '**/*'),
+        root(:output, '**/*'),
+        @config_file
+      ]
+    end
+
+    def ignored_files
+      @ignored_files ||= ignore_list.inject([]) { |a, spec|
+        Dir[spec].each { |file| a << File.expand_path(file) }; a
+      }
     end
 
     protected
