@@ -18,7 +18,7 @@ class TestHyde < Test::Unit::TestCase
   end
 
   should "recognize not found" do
-    assert_raises Hydegen::NotFound do
+    assert_raises Hyde::NotFound do
       @project.render 'garbage.html'
     end
   end

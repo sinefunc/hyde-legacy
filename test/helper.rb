@@ -4,17 +4,17 @@ require 'contest'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'hydegen'
+require 'hyde'
 
 class Test::Unit::TestCase
-  include Hydegen::Utils
+  include Hyde::Utils
 
   def setup(site = 'default')
     @project = get_project site
   end
 
   def get_project(site)
-    Hydegen::Project.new fixture(site)
+    Hyde::Project.new fixture(site)
   end
 
   def fixture(site)

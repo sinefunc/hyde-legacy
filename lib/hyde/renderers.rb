@@ -1,6 +1,6 @@
 require 'haml'
 
-module Hydegen
+module Hyde
   module Renderers
     class Haml < Renderer::Parsable
       def render( data = {} )

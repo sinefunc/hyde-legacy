@@ -4,7 +4,7 @@ Hyde
 Installation
 ------------
 
-    gem install hyde
+    gem install hydeweb
 
 Usage
 -----

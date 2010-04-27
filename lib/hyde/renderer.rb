@@ -1,6 +1,6 @@
 require "ostruct"
 
-module Hydegen
+module Hyde
   module Renderer
     class Base
       attr_reader :meta

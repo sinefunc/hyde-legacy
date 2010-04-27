@@ -4,13 +4,13 @@ $:.unshift lib_path
 
 require 'optparse'
 require 'rubygems'
-require 'hydegen'
+require 'hyde'
 
 options = {
 }
 
 opts = OptionParser.new do |o|
-  o.banner = "usage: hydegen <action> [<options>]"
+  o.banner = "usage: hyde <action> [<options>]"
   o.separator ""
 
   #o.on("-w", "--watch", "watch for changes") do
@@ -37,7 +37,7 @@ options[:params] = []
 (1...ARGV.size).each { |i| options[:params] << ARGV[i] }
 
 if options[:action] == 'start'
-  system "ruby #{lib_path}/hydegen/init.rb"
+  system "ruby #{lib_path}/hyde/init.rb"
 
 elsif options[:action] == 'build'
   Hyde::Project.new.build

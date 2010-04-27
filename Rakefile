@@ -1,11 +1,11 @@
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name        = "hydegen"
+    s.name        = "hyde"
     s.authors     = ["rstacruz"]
     s.email       = "rico@sinefunc.com"
     s.summary     = "Website preprocessor"
-    s.homepage    = "http://github.com/sinefunc/hydegen"
+    s.homepage    = "http://github.com/sinefunc/hyde"
     s.description = "Website preprocessor"
     s.add_dependency('sinatra', '>= 1.0.0')
     s.add_dependency('less', '>= 1.2.21')

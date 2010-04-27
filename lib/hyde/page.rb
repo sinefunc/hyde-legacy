@@ -1,4 +1,4 @@
-module Hydegen
+module Hyde
   class Page 
     attr :filename, :renderer, :meta,
          :page, :layout, :project
@@ -58,7 +58,7 @@ module Hydegen
       filename = "#{project.root}/#{page.name}"
 
       if File.exists? filename
-        renderer = Hydegen::Renderer::Passthru
+        renderer = Hyde::Renderer::Passthru
 
       else
         # Look for the file
@@ -71,7 +71,7 @@ module Hydegen
         matches.each do |match|
           begin
             ext      = File.extname(match)[1..-1].capitalize.to_sym
-            r_class  = Hydegen::Renderers.const_get(ext)
+            r_class  = Hyde::Renderers.const_get(ext)
             exts     << ext
             renderer ||= r_class
             filename = match

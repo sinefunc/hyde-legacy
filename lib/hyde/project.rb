@@ -1,4 +1,4 @@
-module Hydegen
+module Hyde
   class Project
 
     # The root path (String).

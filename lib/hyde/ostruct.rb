@@ -1,6 +1,6 @@
 require 'ostruct'
 
-module Hydegen
+module Hyde
   class OStruct < OpenStruct
     def merge!(hash)
       hash.each_pair { |k, v| self.set!(k, v) }

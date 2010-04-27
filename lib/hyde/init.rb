@@ -3,7 +3,7 @@ require 'sinatra/base'
 require "logger"
 
 $:.unshift File.dirname(__FILE__) + "/.."
-require 'hydegen'
+require 'hyde'
 
 class Main < Sinatra::Base
   configure do
@@ -12,9 +12,9 @@ class Main < Sinatra::Base
 
   get '/*' do
     begin
-      @project ||= Hydegen::Project.new
+      @project ||= Hyde::Project.new
       @project.render params[:splat].to_s
-    rescue Hydegen::NotFound
+    rescue Hyde::NotFound
       raise Sinatra::NotFound
     end
   end

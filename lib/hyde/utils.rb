@@ -1,4 +1,4 @@
-module Hydegen
+module Hyde
   module Utils
     def same_file?(a, b)
       File.expand_path(a) == File.expand_path(b)
