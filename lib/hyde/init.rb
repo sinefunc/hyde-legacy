@@ -6,14 +6,19 @@ $:.unshift File.dirname(__FILE__) + "/.."
 require 'hyde'
 
 class Main < Sinatra::Base
-  configure do
-    # $log = Logger.new(File.join('log', "#{Sinatra::Application.environment}.log"))
-  end 
+  @@project ||= Hyde::Project.new
+
+  get '/-' do
+    @@project.files.inject("") do |a, path|
+      a << "<li><a href='#{path}'>#{path}</a></li>"
+      a
+    end
+  end
 
   get '/*' do
     begin
-      @project ||= Hyde::Project.new
-      @project.render params[:splat].to_s
+      path = params[:splat][0]
+      @@project.render path
     rescue Hyde::NotFound
       raise Sinatra::NotFound
     end
