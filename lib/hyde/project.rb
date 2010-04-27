@@ -96,7 +96,7 @@ module Hyde
       { 'layouts_path'    => 'layouts',
         'extensions_path' => 'extensions',
         'site_path'       => 'site',
-        'output_path'     => 'output'
+        'output_path'     => 'public'
       }
     end
 

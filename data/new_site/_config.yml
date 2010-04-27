@@ -14,4 +14,4 @@ layouts_path: layouts
 extensions_path: extensions
 
 # The folder where the HTML files are to be built when typing `hyde build`.
-output_path: output
+output_path: public
