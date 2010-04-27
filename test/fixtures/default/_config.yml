@@ -1,4 +1,8 @@
 ---
+layouts_path: _layouts
+extensions_path: _extensions
+site_path: .
+output_path: _www
 ignore:
   - hyde
   - _*

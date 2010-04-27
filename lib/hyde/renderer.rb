@@ -3,11 +3,13 @@ require "ostruct"
 module Hyde
   module Renderer
     class Base
-      attr_reader :meta
+      # Reference to {Page}
       attr_reader :page
 
-      def initialize( page, filename )
-        @meta = {}
+      # The filename of the file to be parsed
+      attr_reader :filename
+
+      def initialize(page, filename)
         @page = page
         @filename = filename
       end

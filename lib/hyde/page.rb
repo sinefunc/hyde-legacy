@@ -3,32 +3,33 @@ module Hyde
     attr :filename, :renderer, :meta,
          :page, :layout, :project
 
+    # The filename of the source file.
+    # @example
+    #   puts page.name
+    #   puts page.filename
+    #   # about/index.html
+    #   # about/index.html.haml
     attr_accessor :filename
+
+    # Metadata hash
     attr_accessor :meta
-    attr_accessor :data
+
+    # Path
+    # @see {#filename} for an example
     attr_accessor :name
 
+    # A reference to the parent {Project} instance
     attr_reader :project
 
-    # Constructor.
-    #
-    # The `page` argument is a page name
-    #
-    def initialize( page, project )
-      @project = project
-      @name ||= page
-      @meta ||= {}
-
-      renderer = nil
-
-      info = get_page_info(self, @project)
-      @filename = info[:filename]
-      @renderer = info[:renderer]
+    # Factory
+    def self.create(path, project, page_class = Page)
+      info = get_page_info(path, project)
+      page = page_class.new(path, project, info[:renderer], info[:filename])
     end
 
     # Returns the rendered output.
     def render( data = {} )
-       output = @renderer.render(@meta.merge data)
+       output = @renderer.render(@meta.merge(data))
        unless @layout.nil?
          hash = @meta.merge({ "content" => output })
          output = @layout.render hash
@@ -43,27 +44,40 @@ module Hyde
     #
     # Called by Renderer::Base.
     #
-    def set_meta( meta )
+    def set_meta(meta)
       # Merge
       @meta ||= Hash.new
       @meta.merge! meta
 
       # Set the Layout
-      @layout = Layout.new(@meta['layout'], @project) if @meta['layout']
+      @layout = @project.get_layout(@meta['layout'])  if @meta['layout']
     end
 
     protected
-    def get_page_info(page, project)
+    # Constructor.
+    # The `page` argument is a page name
+    # Don't use me: use {Project#create}
+    def initialize(path, project, renderer, filename)
+      info = Page.get_page_info(path, project)
+
+      @project    = project
+      @name     ||= path
+      @meta     ||= {}
+      @filename   = filename
+      @renderer   = renderer.new(self, filename)
+    end
+
+    def self.get_page_info(path, project)
       renderer = nil
-      filename = "#{project.root}/#{page.name}"
+      filename = "#{project.root}/#{path}"
 
       if File.exists? filename
         renderer = Hyde::Renderer::Passthru
 
       else
         # Look for the file
-        matches = Dir["#{project.root}/#{page.name}.*"]
-        raise NotFound.new("Can't find `#{page.name}` or `#{page.name}.*`") \
+        matches = Dir["#{project.root}/#{path}.*"]
+        raise NotFound.new("Can't find `#{path}{,.*}`") \
           if matches.empty?
 
         # Check for a matching renderer
@@ -82,7 +96,7 @@ module Hyde
           if renderer.nil?
       end
 
-      { :renderer => renderer.new(page, filename),
+      { :renderer => renderer,
         :filename => filename
       }
     end

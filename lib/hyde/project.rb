@@ -31,11 +31,19 @@ module Hyde
       @config.send meth # SHOULD SEND AND ERROR!!
     end
 
+    def get_page(path)
+      path = "index.html"  if path.empty?
+      Page.create path, self
+    end
+
+    def get_layout(path)
+      path = File.join(layouts_path, path)
+      Page.create path, self, Layout
+    end
+
     # Can throw a NotFound.
-    def render( pathname )
-      pathname = "index.html"  if pathname.empty?
-      page = Page.new pathname, self
-      page.render
+    def render(path)
+      get_page(path).render
     end
 
     def build
@@ -87,7 +95,7 @@ module Hyde
     def defaults
       { 'layouts_path'    => '_layouts',
         'extensions_path' => '_extensions',
-        'site_path'       => '_site',
+        'site_path'       => '.',
         'output_path'     => '_output'
       }
     end

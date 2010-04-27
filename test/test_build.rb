@@ -14,7 +14,7 @@ class TestBuild < Test::Unit::TestCase
 
   should "build" do
     @project.build
-    # Actually test shit
+    # Test existence of files
   end
 end
 
