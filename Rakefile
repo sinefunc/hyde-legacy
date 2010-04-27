@@ -1,8 +1,8 @@
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name        = "hyde"
-    s.authors     = ["rstacruz"]
+    s.name        = "hydeweb"
+    s.authors     = ["Rico Sta. Cruz", "Sinefunc, Inc."]
     s.email       = "rico@sinefunc.com"
     s.summary     = "Website preprocessor"
     s.homepage    = "http://github.com/sinefunc/hyde"
