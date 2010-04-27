@@ -10,7 +10,7 @@ module Hyde
       where = ''
       where = send("#{args.shift.to_s}_path")  if args[0].class == Symbol
       path = args
-      File.join [@root, where, path].reject(&:empty?)
+      File.expand_path(File.join [@root, where, path].reject(&:empty?))
     end
 
     # The filename of the configuration file, relative to the project root.
@@ -37,8 +37,7 @@ module Hyde
     end
 
     def get_layout(path)
-      path = File.join(layouts_path, path)
-      Page.create path, self, Layout
+      Layout.create path, self
     end
 
     # Can throw a NotFound.
@@ -46,23 +45,24 @@ module Hyde
       get_page(path).render
     end
 
-    def build
+    def build(ostream = nil)
       raise Errno::EEXISTS  if File.exists? root(:output) and not Dir.exists? root(:output)
       Dir.mkdir root(:output)  unless Dir.exists? root(:output)
 
-      files.each do |filename|
-        mfile = force_file_open(root(:output), filename)
-        mfile << render(filename)
+      files.each do |path|
+        ostream << " * #{output_path}/#{path}\n"  if ostream
+        mfile = force_file_open(root(:output, path))
+        mfile << render(path)
         mfile.close
       end
     end
 
     # Returns a list of all URLs
     def files
-      @file_list ||= Dir[File.join(root, '**', '*')].inject([]) do |a, match|
+      @file_list ||= Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
         # Make sure its the canonical name
         path = File.expand_path(match)
-        file = path.gsub /^#{Regexp.escape root}\/?/, ''
+        file = path.gsub /^#{Regexp.escape root(:site)}\/?/, ''
         ext  = File.extname(file)[1..-1]
         
         if ignored_files.include?(path) or Dir.exists?(match)
@@ -93,10 +93,10 @@ module Hyde
 
     protected
     def defaults
-      { 'layouts_path'    => '_layouts',
-        'extensions_path' => '_extensions',
-        'site_path'       => '.',
-        'output_path'     => '_output'
+      { 'layouts_path'    => 'layouts',
+        'extensions_path' => 'extensions',
+        'site_path'       => 'site',
+        'output_path'     => 'output'
       }
     end
 

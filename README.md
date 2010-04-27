@@ -9,9 +9,10 @@ Installation
 Usage
 -----
 
-    hyde create <project_name>
+    hyde create <project_name> 
     cd <project_name>
-    hyde start
+    hyde build                       # <= Build the HTML files, or
+    hyde start                       # <= Serve via a local web server
 
 To do
 -----
@@ -22,8 +23,11 @@ To do
    - markdown
    - textile
 
- - hyde build
- - hyde gen
  - extensions support
 
  - _meta.yml 
+
+Done:
+
+ - hyde build
+ - hyde gen

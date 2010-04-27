@@ -36,23 +36,34 @@ options[:action] = ARGV[0]
 options[:params] = []
 (1...ARGV.size).each { |i| options[:params] << ARGV[i] }
 
+ostream = STDERR
+
 if options[:action] == 'start'
   system "ruby #{lib_path}/hyde/init.rb"
 
 elsif options[:action] == 'build'
-  Hyde::Project.new.build
+  Hyde::Project.new.build ostream
 
 elsif options[:action] == 'create'
   unless options[:params].size == 1
     puts opts
+
   else
-    begin
-      Dir.mkdir options[:params][0]
-    rescue Errno::EEXIST
-      puts "Error: this directory already exists"
+    site_name = options[:params][0]
+    if Dir.exists? site_name
+      ostream << "This director already exists!\n"
+      exit
     end
 
-    # TODO: Magic here
+    from = File.join(File.dirname(__FILE__), '..', 'data', 'new_site')
+    to   = File.expand_path(File.join(Dir.pwd, site_name))
+
+    require 'fileutils'
+    FileUtils.cp_r from, to
+
+    Dir[File.join(to, '**/*')].each do |file|
+      ostream << " * " << file.gsub(Dir.pwd, '') << "\n"
+    end
   end
 
 else

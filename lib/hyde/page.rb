@@ -58,26 +58,28 @@ module Hyde
     # The `page` argument is a page name
     # Don't use me: use {Project#create}
     def initialize(path, project, renderer, filename)
-      info = Page.get_page_info(path, project)
-
       @project    = project
       @name     ||= path
       @meta     ||= {}
       @filename   = filename
       @renderer   = renderer.new(self, filename)
     end
+    
+    def self.get_filename(path, project)
+      project.root(:site, path)
+    end
 
     def self.get_page_info(path, project)
       renderer = nil
-      filename = "#{project.root}/#{path}"
+      filename = get_filename(path, project)
 
       if File.exists? filename
         renderer = Hyde::Renderer::Passthru
 
       else
         # Look for the file
-        matches = Dir["#{project.root}/#{path}.*"]
-        raise NotFound.new("Can't find `#{path}{,.*}`") \
+        matches = Dir["#{filename}.*"]
+        raise NotFound.new("Can't find `#{path}{,.*}` -- #{filename}") \
           if matches.empty?
 
         # Check for a matching renderer

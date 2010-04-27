@@ -10,18 +10,10 @@ module Hyde
       end
     end
 
-    def force_file_open(basepath, path, mode="w")
-      mkdir_p basepath, File.dirname(path)
-      File.new(File.join(basepath, path), mode)
-    end
-
-    def mkdir_p(basepath, path)
-      base = basepath
-      path.split('/').reject(&:empty?).unshift('').each do |segment|
-        base = File.join(base, segment)
-        begin; Dir.mkdir(base)
-        rescue Errno::EEXIST; end
-      end
+    def force_file_open(filepath)
+      require 'fileutils'
+      FileUtils.mkdir_p File.dirname(filepath)
+      File.new filepath, 'w'
     end
   end
 end
