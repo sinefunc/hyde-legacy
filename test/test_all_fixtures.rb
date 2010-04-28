@@ -28,15 +28,15 @@ class TestAllFixtures < Test::Unit::TestCase
         @project = Hyde::Project.new File.join(@@root, site)
         @project.build
 
-        root = @project.root :site
+        unknown_root = @project.root :site
         control_root = @project.root 'www_control'
 
         if not Dir.exists? control_root
           flunk "No www_control"
         else
           @project.files.reject { |f| not Dir.exists? f }.each do |path|
-            unknown = File.open(File.join(root, path)).read
-            control = File.open(File.join(root, control_root)).read
+            unknown = File.open(File.join(unknown_root, path)).read
+            control = File.open(File.join(control_root, path)).read
 
             assert_equal control, unknown
           end
