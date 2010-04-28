@@ -20,17 +20,22 @@ module Hyde
     attr_accessor :config
 
     def initialize( root = Dir.pwd )
+      @config = OStruct.new defaults
+
+      # find_root
       @root = root
       @config_file ||= "#{@root}/_config.yml"
 
-      @config = OStruct.new defaults
       @config.merge! YAML::load_file(@config_file)  if File.exists? @config_file
     end
 
     def method_missing(meth, *args, &blk)
-      @config.send meth # SHOULD SEND AND ERROR!!
+      raise NoMethodError, "No method `#{meth}`"  unless @config.include?(meth)
+      @config.send meth
     end
 
+    # Returns a page in a certain URL path.
+    # @return {Page} or a subclass of it
     def get_page(path)
       path = "index.html"  if path.empty?
       Page.create path, self
@@ -45,6 +50,9 @@ module Hyde
       get_page(path).render
     end
 
+    # Writes the output files.
+    # @param
+    #   ostream    - (Stream) Where to send the messages
     def build(ostream = nil)
       raise Errno::EEXISTS  if File.exists? root(:output) and not Dir.exists? root(:output)
       Dir.mkdir root(:output)  unless Dir.exists? root(:output)
@@ -61,7 +69,7 @@ module Hyde
       end
     end
 
-    # Returns a list of all URLs
+    # Returns a list of all URL paths
     def files
       @file_list ||= Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
         # Make sure its the canonical name
@@ -81,7 +89,7 @@ module Hyde
     end
 
     def ignore_list
-      @ignote_list ||= [
+      @ignore_list ||= [
         root(:layouts, '**/*'),
         root(:extensions, '**/*'),
         root(:output, '**/*'),
@@ -89,6 +97,8 @@ module Hyde
       ]
     end
 
+    # Returns a list of ignored files.
+    # TODO: This is innefficient... do it another way
     def ignored_files
       @ignored_files ||= ignore_list.inject([]) { |a, spec|
         Dir[spec].each { |file| a << File.expand_path(file) }; a
@@ -104,6 +114,7 @@ module Hyde
       }
     end
 
+    # Returns the renderer associated with the given file extension.
     def get_renderer(name)
       begin
         class_name = name.to_s.capitalize.to_sym

@@ -22,6 +22,7 @@ module Hyde
     attr_reader :project
 
     # Factory
+    # Try {Project#get_page} instead
     def self.create(path, project, page_class = Page)
       info = get_page_info(path, project)
       page = page_class.new(path, project, info[:renderer], info[:filename])
