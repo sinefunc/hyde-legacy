@@ -19,6 +19,11 @@ module Hyde
         evaluate scope, data, &block
       end
 
+      def markup
+        File.open(filename) { |f| @markup = f.read }  unless @markup
+        @markup
+      end
+
       protected
       def build_scope(page, data)
         # Page is the scope
@@ -49,8 +54,6 @@ module Hyde
 
     # Any filetype that is split with the -- separator
     class Parsable < Base
-      @markup = ""
-
       def initialize(page, filename)
         super page, filename
         
@@ -63,6 +66,10 @@ module Hyde
           @markup = parts[1]
           page.set_meta YAML::load("--- " + parts[0])
         end
+      end
+
+      def markup
+        @markup
       end
 
       protected
