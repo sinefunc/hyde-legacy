@@ -1,16 +1,18 @@
-require 'haml'
-
 module Hyde
   module Renderers
     class Haml < Renderer::Parsable
-      def render( data = {} )
+      def evaluate(scope, data={}, &block)
+        require 'haml'
         @engine = ::Haml::Engine.new(@markup, {})
+        @engine.render scope, data, &block
+      end
+    end
 
-        if data.is_a? Hash
-          @engine.render OpenStruct.new data
-        else
-          @engine.render data
-        end
+    class Erb < Renderer::Parseable
+      def evaluate(scope, data={}, &block)
+        require 'erb'
+        @engine = ERB.new @markup
+        @engine.src
       end
     end
   end

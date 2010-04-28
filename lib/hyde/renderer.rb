@@ -14,7 +14,14 @@ module Hyde
         @filename = filename
       end
 
-      def render( data = {} )
+      def render(data={}, &block)
+        scope = Object.new
+        evaluate scope, data, &block
+      end
+
+      protected
+      # Override me
+      def evaluate(scope, data={}, &block)
         ""
       end
     end
@@ -57,10 +64,10 @@ module Hyde
     end
 
     class Passthru < Base
-      def render( data = {} )
-        data = ""
-        File.open(@page.filename, "r").each_line { |line| data << line }
-        data
+      def render(data = {})
+        output = ''
+        File.open(@page.filename, "r") { |f| output = f.read }
+        output
       end
     end
   end

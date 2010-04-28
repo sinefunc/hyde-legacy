@@ -28,13 +28,11 @@ module Hyde
     end
 
     # Returns the rendered output.
-    def render( data = {} )
-       output = @renderer.render(@meta.merge(data))
-       unless @layout.nil?
-         hash = @meta.merge({ "content" => output })
-         output = @layout.render hash
-       end
-       output
+    def render(data = {}, &block)
+      new_data = @meta.merge(data)
+      output = @renderer.render(new_data, &block)
+      output = @layout.render(new_data) { output }  unless @layout.nil?
+      output
     end
 
     # Sets the meta data as read from the file.
