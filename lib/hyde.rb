@@ -10,6 +10,7 @@ module Hyde
   autoload :Renderers,  "#{prefix}/hyde/renderers"
   autoload :Utils,      "#{prefix}/hyde/utils"
   autoload :Scope,      "#{prefix}/hyde/scope"
+  autoload :TemplateHelpers,"#{prefix}/hyde/template_helpers"
 
   class NotFound < Exception
   end
