@@ -29,10 +29,27 @@ module Hyde
 
     # Returns the rendered output.
     def render(data = {}, &block)
-      new_data = @meta.merge(data)
-      output = @renderer.render(new_data, &block)
-      output = @layout.render(new_data) { output }  unless @layout.nil?
+      if self.is_a? Layout
+        # puts debug
+      end
+      output = @renderer.render(data, &block)
+      # BUG: @layout should build on top of that data
+      output = @layout.render(@meta.merge data) { output }  unless @layout.nil?
       output
+    end
+
+    def method_missing(meth, *args, &blk)
+      if meta.keys.include?(meth.to_s)
+        meta[meth.to_s]
+      elsif meta.keys.include?(meth.to_sym)
+        meta[meth.to_sym]
+      else
+        raise NoMethodError.new "Undefined method `#{self.class}::#{meth}`"
+      end
+    end
+
+    def get_binding
+      binding
     end
 
     # Sets the meta data as read from the file.
@@ -85,14 +102,18 @@ module Hyde
         matches.each do |match|
           begin
             ext      = File.extname(match)[1..-1].capitalize.to_sym
+            exts     << File.extname(match)
             r_class  = Hyde::Renderers.const_get(ext)
-            exts     << ext
             renderer ||= r_class
             filename = match
-          rescue NoMethodError; end
+          rescue NoMethodError
+            # pass
+          rescue NameError # Renderer not found
+            # pass
+          end
         end
 
-        raise NotFound.new("No matching renderers found: " + exts.inspect) \
+        raise NotFound.new("No matching (#{exts.join(", ")}) renderers found for `#{path}`") \
           if renderer.nil?
       end
 

@@ -14,14 +14,34 @@ module Hyde
         @filename = filename
       end
 
-      def render(data={}, &block)
-        scope = Object.new
+      def render(data, &block)
+        scope = build_scope(page, data)
         evaluate scope, data, &block
       end
 
       protected
+      def build_scope(page, data)
+        # Page is the scope
+        scope = page.get_binding
+        scope_object = eval("self", scope)
+
+        # Inherit local vars
+        scope_object.send(:instance_variable_set, '@_locals', data)
+        f_set_locals = data.keys.map { |k| "#{k} = @_locals[#{k.inspect}];" }.join("\n")
+        eval(f_set_locals, scope)
+
+        scope_object.instance_eval do
+          def eval_block(src, &block)
+            eval src
+          end
+          #extend Helpers
+        end
+
+        scope
+      end
+
       # Override me
-      def evaluate(scope, data={}, &block)
+      def evaluate(scope, data, &block)
         ""
       end
     end
@@ -64,7 +84,7 @@ module Hyde
     end
 
     class Passthru < Base
-      def render(data = {})
+      def render(data = 0, &block)
         output = ''
         File.open(@page.filename, "r") { |f| output = f.read }
         output

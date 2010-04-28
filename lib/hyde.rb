@@ -9,6 +9,7 @@ module Hyde
   autoload :Renderer,   "#{prefix}/hyde/renderer"
   autoload :Renderers,  "#{prefix}/hyde/renderers"
   autoload :Utils,      "#{prefix}/hyde/utils"
+  autoload :Scope,      "#{prefix}/hyde/scope"
 
   class NotFound < Exception
   end

@@ -103,7 +103,7 @@ module Hyde
     def get_renderer(name)
       begin
         class_name = name.to_s.capitalize.to_sym
-        renderer = Renderers.const_get(class_name)
+        renderer = ::Hyde::Renderers.const_get(class_name)
       rescue NameError
         renderer = nil
       end
