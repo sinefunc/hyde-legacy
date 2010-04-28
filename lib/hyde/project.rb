@@ -49,11 +49,15 @@ module Hyde
       raise Errno::EEXISTS  if File.exists? root(:output) and not Dir.exists? root(:output)
       Dir.mkdir root(:output)  unless Dir.exists? root(:output)
 
-      files.each do |path|
-        ostream << " * #{output_path}/#{path}\n"  if ostream
-        mfile = force_file_open(root(:output, path))
-        mfile << render(path)
-        mfile.close
+      begin
+        files.each do |path|
+          ostream << " * #{output_path}/#{path}\n"  if ostream
+          mfile = force_file_open(root(:output, path))
+          mfile << render(path)
+          mfile.close
+        end
+      rescue NoGemError => e
+        ostream << "Error: #{e.message}\n"
       end
     end
 

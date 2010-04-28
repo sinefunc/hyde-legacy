@@ -12,6 +12,12 @@ module Hyde
   autoload :Scope,      "#{prefix}/hyde/scope"
   autoload :TemplateHelpers,"#{prefix}/hyde/template_helpers"
 
+  class Exception < ::Exception
+  end
+
   class NotFound < Exception
+  end
+
+  class NoGemError < Exception
   end
 end

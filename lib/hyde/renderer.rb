@@ -25,6 +25,16 @@ module Hyde
       end
 
       protected
+      def require_lib(lib, gem=lib)
+        begin
+          require lib
+        rescue LoadError
+          class_name = self.class.to_s.downcase
+          ext = /[^:]*$/.match(class_name)
+          raise NoGemError.new("To use .#{ext} files, type: `gem install #{gem}`")
+        end
+      end
+
       def build_scope(page, data)
         # Page is the scope
         scope = page.get_binding
