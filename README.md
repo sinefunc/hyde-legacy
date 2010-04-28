@@ -4,7 +4,7 @@ Hyde
 Installation
 ------------
 
-    gem install hydeweb
+    gem install hydeweb --pre
 
 Usage
 -----
@@ -18,16 +18,14 @@ To do
 -----
 
  - partials support
- - more renderers
-   - less
-   - markdown
-   - textile
-
  - extensions support
-
  - _meta.yml 
 
 Done:
 
  - hyde build
  - hyde gen
+ - more renderers
+   - less
+   - markdown
+   - textile
