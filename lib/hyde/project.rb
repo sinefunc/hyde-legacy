@@ -58,11 +58,17 @@ module Hyde
       Dir.mkdir root(:output)  unless File.directory? root(:output)
 
       begin
+        continue = true
         files.each do |path|
           ostream << " * #{output_path}/#{path}\n"  if ostream
-          mfile = force_file_open(root(:output, path))
-          mfile << render(path)
-          mfile.close
+          begin
+            rendered = render(path)
+            mfile = force_file_open(root(:output, path))
+            mfile << rendered
+            mfile.close
+          rescue RenderError => e
+            ostream << " *** Error: #{e.message}".gsub("\n", "\n *** ") << "\n"
+          end
         end
       rescue NoGemError => e
         ostream << "Error: #{e.message}\n"

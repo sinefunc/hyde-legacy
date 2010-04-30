@@ -20,8 +20,12 @@ module Hyde
     class Less < Renderer::Base
       def evaluate(scope, data={}, &block)
         require_lib 'less'
-        @engine = ::Less::Engine.new(File.open(filename))
-        @engine.to_css
+        begin
+          @engine = ::Less::Engine.new(File.open(filename))
+          @engine.to_css
+        rescue ::Less::SyntaxError => e
+          raise Hyde::RenderError, e.message
+        end
       end
     end
 

@@ -20,4 +20,7 @@ module Hyde
 
   class NoGemError < Exception
   end
+
+  class RenderError < Exception
+  end
 end

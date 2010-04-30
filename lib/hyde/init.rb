@@ -26,6 +26,10 @@ class Main < Sinatra::Base
       type = File.extname(path)[1..-1]
       content_type type.to_sym  if type.is_a? String
       @@project.render path
+    rescue Hyde::RenderError => e
+      puts " * `#{path}` error"
+      puts " *** #{e.message}".gsub("\n","\n *** ")
+      e.message
     rescue Hyde::NotFound
       raise Sinatra::NotFound
     end
