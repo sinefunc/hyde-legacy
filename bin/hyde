@@ -6,66 +6,35 @@ require 'optparse'
 require 'rubygems'
 require 'hyde'
 
-options = {
-}
+#options = {
+#}
+#
+#opts = OptionParser.new do |o|
+#  o.banner = "usage: hyde <action> [<options>]"
+#  o.separator ""
+#
+#  o.separator "Actions:"
+#  o.separator "    start           - Starts a server"
+#  o.separator "    build           - Creates HTML files"
+#  o.separator "    create <name>   - Starts a project"
+#  o.separator ""
+#  o.separator "Options:"
+#
+#  # Help
+#  o.on_tail("-h", "--help", "show this message") do
+#    puts opts
+#    exit
+#  end
+#end
+#
+#opts.parse!
 
-opts = OptionParser.new do |o|
-  o.banner = "usage: hyde <action> [<options>]"
-  o.separator ""
-
-  #o.on("-w", "--watch", "watch for changes") do
-  #  options[:watch] = true
-  #end
-
-  o.separator "Actions:"
-  o.separator "    start           - Starts a server"
-  o.separator "    build           - Creates HTML files"
-  o.separator "    create <name>   - Starts a project"
-  o.separator ""
-  o.separator "Options:"
-
-  # Help
-  o.on_tail("-h", "--help", "show this message") do
-    puts opts
-    exit
-  end
+if ARGV.size == 0
+  Hyde::CLICommands::Help.run
+  exit
 end
 
-opts.parse!
-options[:action] = ARGV[0]
-options[:params] = []
-(1...ARGV.size).each { |i| options[:params] << ARGV[i] }
-
-ostream = STDERR
-
-if options[:action] == 'start'
-  system "ruby #{lib_path}/hyde/init.rb"
-
-elsif options[:action] == 'build'
-  Hyde::Project.new.build ostream
-
-elsif options[:action] == 'create'
-  unless options[:params].size == 1
-    puts opts
-
-  else
-    site_name = options[:params][0]
-    if File.directory? site_name
-      ostream << "This directory already exists!\n"
-      exit
-    end
-
-    from = File.join(File.dirname(__FILE__), '..', 'data', 'new_site')
-    to   = File.expand_path(File.join(Dir.pwd, site_name))
-
-    require 'fileutils'
-    FileUtils.cp_r from, to
-
-    Dir[File.join(to, '**/*')].each do |file|
-      ostream << " * " << file.gsub(Dir.pwd, '') << "\n"
-    end
-  end
-
-else
-  puts opts
-end
+# Can error
+controller = Hyde::CLICommands.get_controller ARGV[0]
+params = ARGV[1..-1]
+controller.run(*params)

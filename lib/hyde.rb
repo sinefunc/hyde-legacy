@@ -10,17 +10,13 @@ module Hyde
   autoload :Renderers,  "#{prefix}/hyde/renderers"
   autoload :Utils,      "#{prefix}/hyde/utils"
   autoload :Scope,      "#{prefix}/hyde/scope"
+  autoload :CLICommand, "#{prefix}/hyde/clicommand"
+  autoload :CLICommands,"#{prefix}/hyde/clicommands"
   autoload :TemplateHelpers,"#{prefix}/hyde/template_helpers"
 
-  class Exception < ::Exception
-  end
-
-  class NotFound < Exception
-  end
-
-  class NoGemError < Exception
-  end
-
-  class RenderError < Exception
-  end
+  Error = Class.new(::StandardError)
+  RenderError = Class.new(Error)
+  NoGemError  = Class.new(Error)
+  NotFound    = Class.new(Error)
+  NoRootError = Class.new(Error) 
 end

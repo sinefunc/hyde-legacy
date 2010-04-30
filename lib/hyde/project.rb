@@ -19,14 +19,29 @@ module Hyde
     # The configuration k/v storage (Hash)
     attr_accessor :config
 
+    # Can raise a NoRootError
     def initialize( root = Dir.pwd )
       @config = OStruct.new defaults
-
-      # find_root
-      @root = root
-      @config_file ||= "#{@root}/_config.yml"
-
+      @root, @config_file = find_root_from root
       @config.merge! YAML::load_file(@config_file)  if File.exists? @config_file
+    end
+
+    def find_root_from(start)
+      root = File.expand_path(start)
+      ret = nil
+      while ret.nil?
+        # See if any of these files exist
+        ['_config.yml', 'hyde.conf'].each do |config_name|
+          config_file = File.join(root, config_name)
+          ret ||= [root, config_file]  if File.exists? config_file
+        end
+
+        # Traverse back (die if we reach the root)
+        old_root = root
+        root = File.expand_path(File.join(root, '..'))
+        raise NoRootError  if root == old_root
+      end
+      ret
     end
 
     def method_missing(meth, *args, &blk)
@@ -77,7 +92,7 @@ module Hyde
 
     # Returns a list of all URL paths
     def files
-      @file_list ||= Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
+      @file_list = Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
         # Make sure its the canonical name
         path = File.expand_path(match)
         file = path.gsub /^#{Regexp.escape root(:site)}\/?/, ''

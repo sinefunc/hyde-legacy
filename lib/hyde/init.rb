@@ -1,17 +1,25 @@
 require 'rubygems'
-require 'sinatra/base'
-require "logger"
+begin
+  require 'sinatra/base'
+rescue LoadError
+  STDERR << "You need the sinatra gem to use `hyde start`. Type: `gem install sinatra`\n"
+  exit
+end
 
 $:.unshift File.dirname(__FILE__) + "/.."
 require 'hyde'
 
-puts "Starting server..."
-puts "  http://127.0.0.1:4567      Homepage"
-puts "  http://127.0.0.1:4567/-    File list"
-puts ""
+$project = Hyde::Project.new
 
 class Main < Sinatra::Base
-  @@project ||= Hyde::Project.new
+  @@project ||= $project
+
+  def self.show_start
+    puts "Starting server..."
+    puts "  http://127.0.0.1:4567      Homepage"
+    puts "  http://127.0.0.1:4567/-    File list"
+    puts ""
+  end
 
   get '/-' do
     @@project.files.inject("") do |a, path|
@@ -36,4 +44,5 @@ class Main < Sinatra::Base
   end
 end
 
+Main.show_start
 Main.run!
