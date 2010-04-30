@@ -6,29 +6,6 @@ require 'optparse'
 require 'rubygems'
 require 'hyde'
 
-#options = {
-#}
-#
-#opts = OptionParser.new do |o|
-#  o.banner = "usage: hyde <action> [<options>]"
-#  o.separator ""
-#
-#  o.separator "Actions:"
-#  o.separator "    start           - Starts a server"
-#  o.separator "    build           - Creates HTML files"
-#  o.separator "    create <name>   - Starts a project"
-#  o.separator ""
-#  o.separator "Options:"
-#
-#  # Help
-#  o.on_tail("-h", "--help", "show this message") do
-#    puts opts
-#    exit
-#  end
-#end
-#
-#opts.parse!
-
 if ARGV.size == 0
   Hyde::CLICommands::Help.run
   exit
