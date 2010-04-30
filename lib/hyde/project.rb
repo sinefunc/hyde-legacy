@@ -54,8 +54,8 @@ module Hyde
     # @param
     #   ostream    - (Stream) Where to send the messages
     def build(ostream = nil)
-      raise Errno::EEXISTS  if File.exists? root(:output) and not Dir.exists? root(:output)
-      Dir.mkdir root(:output)  unless Dir.exists? root(:output)
+      raise Errno::EEXISTS  if File.exists? root(:output) and not File.directory? root(:output)
+      Dir.mkdir root(:output)  unless File.directory? root(:output)
 
       begin
         files.each do |path|
@@ -77,7 +77,7 @@ module Hyde
         file = path.gsub /^#{Regexp.escape root(:site)}\/?/, ''
         ext  = File.extname(file)[1..-1]
         
-        if ignored_files.include?(path) or Dir.exists?(match)
+        if ignored_files.include?(path) or File.directory?(match)
           # pass
         elsif not get_renderer(ext).nil? # Has a renderer associated
           a << file.chomp(".#{ext}")

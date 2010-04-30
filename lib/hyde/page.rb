@@ -1,7 +1,11 @@
 module Hyde
   class Page 
-    attr :filename, :renderer, :meta,
-         :page, :layout, :project
+    attr :filename
+    attr :renderer
+    attr :meta
+    attr :page
+    attr :layout
+    attr :project
 
     # The filename of the source file.
     # @example

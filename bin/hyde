@@ -50,8 +50,8 @@ elsif options[:action] == 'create'
 
   else
     site_name = options[:params][0]
-    if Dir.exists? site_name
-      ostream << "This director already exists!\n"
+    if File.directory? site_name
+      ostream << "This directory already exists!\n"
       exit
     end
 
