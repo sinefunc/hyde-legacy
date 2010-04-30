@@ -30,7 +30,9 @@ module Hyde
     end
 
     def to_s
-      "line #{@line ? @line : '?'}: #{@message}"
+      @line ?
+        "line #{@line}: #{@message}" :
+        "#{@message}"
     end
   end
 end

@@ -48,7 +48,7 @@ module Hyde
         scope_object.instance_eval do
           def eval_block(src, &block)
             # This will let you eval something, and `yield` within that block.
-            eval src
+            eval src, &block
           end
           extend Hyde::TemplateHelpers
         end

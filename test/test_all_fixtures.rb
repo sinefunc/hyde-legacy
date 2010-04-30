@@ -18,23 +18,23 @@ class TestAllFixtures < Test::Unit::TestCase
 
   def self.all_sites
     @@sites ||= Dir["#{@@root}/*"] \
-      .reject { |f| not Dir.exists? f } \
+      .select { |f| File.directory? f } \
       .map    { |f| File.basename(f) }
   end
 
   all_sites.each do |site|
     describe "Test `#{site}`" do
-      should "Build it properly and have identical files to the control" do
+      should "Build #{site} properly and have identical files to the control" do
         @project = Hyde::Project.new File.join(@@root, site)
         @project.build
 
         unknown_root = @project.root :site
         control_root = @project.root 'www_control'
 
-        if not Dir.exists? control_root
+        if not File.directory? control_root
           flunk "No www_control"
         else
-          @project.files.reject { |f| not Dir.exists? f }.each do |path|
+          @project.files.select { |f| File.directory? f }.each do |path|
             unknown = File.open(File.join(unknown_root, path)).read
             control = File.open(File.join(control_root, path)).read
 

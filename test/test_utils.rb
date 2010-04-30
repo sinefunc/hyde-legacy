@@ -15,8 +15,8 @@ class TestUtils < Test::Unit::TestCase
 
   should "force_file_open" do
     f = force_file_open File.join(@pwd, 'bbb/ccc/test.txt')
-    assert Dir.exists? 'bbb'
-    assert Dir.exists? 'bbb/ccc'
+    assert File.directory? 'bbb'
+    assert File.directory? 'bbb/ccc'
     assert File.exists? 'bbb/ccc/test.txt'
   end
 end

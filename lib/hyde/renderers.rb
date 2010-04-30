@@ -16,7 +16,6 @@ module Hyde
       def evaluate(scope, data={}, &block)
         require_lib 'erb'
         @engine = ::ERB.new markup
-        # So that we can yield!
         eval("self", scope).eval_block @engine.src, &block
       end
     end
