@@ -18,12 +18,12 @@ To do
 -----
 
  - partials support
- - extensions support
  - _meta.yml 
 
 Done:
 
  - hyde build
+ - extensions support
  - hyde gen
  - more renderers
    - less

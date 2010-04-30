@@ -1,4 +1,5 @@
 module Hyde
+  # TODO: This class is growing... time to refactor
   class Project
     include Hyde::Utils
 
@@ -24,24 +25,45 @@ module Hyde
       @config = OStruct.new defaults
       @root, @config_file = find_root_from root
       @config.merge! YAML::load_file(@config_file)  if File.exists? @config_file
+      load_extensions
     end
 
     def find_root_from(start)
-      root = File.expand_path(start)
+      check = File.expand_path(start)
       ret = nil
       while ret.nil?
         # See if any of these files exist
         ['_config.yml', 'hyde.conf'].each do |config_name|
-          config_file = File.join(root, config_name)
-          ret ||= [root, config_file]  if File.exists? config_file
+          config_file = File.join(check, config_name)
+          ret ||= [check, config_file]  if File.exists? config_file
         end
 
         # Traverse back (die if we reach the root)
-        old_root = root
-        root = File.expand_path(File.join(root, '..'))
-        raise NoRootError  if root == old_root
+        old_check = check
+        check = File.expand_path(File.join(check, '..'))
+        raise NoRootError  if check == old_check
       end
       ret
+    end
+
+    def load_extensions
+      @config.gems.each do |gem|
+        require gem
+      end
+
+      ext_roots = Dir[root :extensions, '*'].select { |d| File.directory? d }
+      ext_roots.each do |dir|
+        ext = File.basename(dir)
+
+        # Try extensions/name/name.rb
+        # Try extensions/name/lib/name.rb
+        ext_files = [
+          File.join(dir, "#{ext}.rb"),
+          File.join(dir, 'lib', "#{ext}.rb")
+        ]
+        ext_files.reject! { |f| not File.exists? f }
+        require ext_files[0]  if ext_files[0]
+      end
     end
 
     def method_missing(meth, *args, &blk)
@@ -131,7 +153,8 @@ module Hyde
       { 'layouts_path'    => 'layouts',
         'extensions_path' => 'extensions',
         'site_path'       => 'site',
-        'output_path'     => 'public'
+        'output_path'     => 'public',
+        'gems'            => []
       }
     end
 

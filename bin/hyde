@@ -6,15 +6,15 @@ require 'optparse'
 require 'rubygems'
 require 'hyde'
 
-if ARGV.size == 0
-  Hyde::CLICommands::Help.run
-  exit
-end
-
 # This will load the extensions
 begin
   $project = Hyde::Project.new
 rescue Hyde::NoRootError; end
+
+if ARGV.size == 0
+  Hyde::CLICommands::Help.run
+  exit
+end
 
 # Can error
 controller = Hyde::CLICommands.get_controller ARGV[0]
