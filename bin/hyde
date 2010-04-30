@@ -11,6 +11,11 @@ if ARGV.size == 0
   exit
 end
 
+# This will load the extensions
+begin
+  $project = Hyde::Project.new
+rescue Hyde::NoRootError; end
+
 # Can error
 controller = Hyde::CLICommands.get_controller ARGV[0]
 params = ARGV[1..-1]

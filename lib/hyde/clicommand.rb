@@ -11,6 +11,7 @@ module Hyde
     end
 
     def self.help
+      log "Usage: hyde #{self.to_s.downcase.split(':')[-1]}"
       log "No help for this command."
     end
 
@@ -19,12 +20,12 @@ module Hyde
     end
 
     def self.project
-      begin
-        Hyde::Project.new
-      rescue NoRootError
-        ostream << "No Hyde config file found. (looking for: hyde.conf, _config.yml)\n"
+      if $project.nil?
+        log "Error: Hyde config file not found. (looking for: hyde.conf, _config.yml)"
+        log "Run this command in a Hyde project directory.\nTo start a new Hyde project, type `hyde create <name>`"
         exit
       end
+      $project
     end
 
     def self.desc(str)
