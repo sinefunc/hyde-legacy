@@ -15,8 +15,22 @@ module Hyde
   autoload :TemplateHelpers,"#{prefix}/hyde/template_helpers"
 
   Error = Class.new(::StandardError)
-  RenderError = Class.new(Error)
   NoGemError  = Class.new(Error)
   NotFound    = Class.new(Error)
   NoRootError = Class.new(Error) 
+
+  class RenderError < Error
+    attr_accessor :message
+    attr_accessor :line
+
+    def initialize(msg, *args)
+      @message = msg
+      a = args.inject({}) { |a, i| a.merge! i  if i.is_a? Hash; a }
+      @line = a[:line]  if a[:line]
+    end
+
+    def to_s
+      "line #{@line ? @line : '?'}: #{@message}"
+    end
+  end
 end

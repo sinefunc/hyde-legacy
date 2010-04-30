@@ -3,8 +3,12 @@ module Hyde
     class Haml < Renderer::Parsable
       def evaluate(scope, data={}, &block)
         require_lib 'haml'
-        @engine = ::Haml::Engine.new(markup, {})
-        @engine.render scope, data, &block
+        begin
+          @engine = ::Haml::Engine.new(markup, {})
+          @engine.render scope, data, &block
+        rescue ::Haml::SyntaxError => e
+          raise Hyde::RenderError.new(e.message, :line => e.line)
+        end
       end
     end
 
@@ -24,7 +28,10 @@ module Hyde
           @engine = ::Less::Engine.new(File.open(filename))
           @engine.to_css
         rescue ::Less::SyntaxError => e
-          raise Hyde::RenderError, e.message
+          matches = /^on line ([0-9]+): (.*)$/.match(e.message)
+          line    = matches[1]
+          message = matches[2]
+          raise Hyde::RenderError.new(message, :line => line)
         end
       end
     end

@@ -104,7 +104,7 @@ module Hyde
             mfile << rendered
             mfile.close
           rescue RenderError => e
-            ostream << " *** Error: #{e.message}".gsub("\n", "\n *** ") << "\n"
+            ostream << " *** Error: #{e.to_s}".gsub("\n", "\n *** ") << "\n"
           end
         end
       rescue NoGemError => e
