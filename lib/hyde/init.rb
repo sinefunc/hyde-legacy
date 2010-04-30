@@ -23,6 +23,8 @@ class Main < Sinatra::Base
   get '/*' do
     begin
       path = params[:splat][0]
+      type = File.extname(path)[1..-1]
+      content_type type.to_sym  if type.is_a? String
       @@project.render path
     rescue Hyde::NotFound
       raise Sinatra::NotFound
