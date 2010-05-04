@@ -4,5 +4,10 @@ Hyde manual
 Introduction
 ------------
 
+- {file:docs/Intro/Installation.md Installation}
 - {file:docs/Intro/GettingStarted.md Getting started}
-- {file:docs/Intro/ExtendingHyde.md Extending Hyde}
+
+Extending Hyde
+--------------
+
+- {file:docs/Extending/ExtendingHyde.md Extending Hyde}

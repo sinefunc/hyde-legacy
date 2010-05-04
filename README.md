@@ -25,6 +25,7 @@ Done:
  - hyde build
  - extensions support
  - hyde gen
+ - helpers
  - more renderers
    - less
    - markdown
