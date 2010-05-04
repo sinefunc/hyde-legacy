@@ -4,10 +4,14 @@ Hyde manual
 Introduction
 ------------
 
-- {file:docs/Intro/Installation.md Installation}
-- {file:docs/Intro/GettingStarted.md Getting started}
+- `++++` {file:Installation Installation}
+- `++--` {file:GettingStarted Getting started}
+- `+---` {file:TemplateLanguages Template languages}
+- `----` {file:Layouts Layouts}
+- `----` {file:Partials Partials}
+- `----` {file:Configuration Configuration}
 
 Extending Hyde
 --------------
 
-- {file:docs/Extending/ExtendingHyde.md Extending Hyde}
+- `+++-` {file:ExtendingHyde Extending Hyde}
