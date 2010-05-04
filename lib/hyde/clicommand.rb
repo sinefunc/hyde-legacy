@@ -10,6 +10,10 @@ module Hyde
       ostream << str << "\n"
     end
 
+    def self.out(str)
+      puts str
+    end
+
     def self.help
       log "Usage: hyde #{self.to_s.downcase.split(':')[-1]}"
       log "No help for this command."
@@ -26,6 +30,18 @@ module Hyde
         exit
       end
       $project
+    end
+
+    def self.hidden?
+      false
+    end
+
+    def self.hidden(bool = true)
+      class_eval %{
+        def self.hidden?
+          #{bool.inspect}
+        end
+      }
     end
 
     def self.desc(str)

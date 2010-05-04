@@ -1,1 +1,2 @@
---files="docs/*"
+--files="docs/*/*"
+--main="docs/Hyde.md"

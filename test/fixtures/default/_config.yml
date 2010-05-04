@@ -1,7 +1,7 @@
 ---
-layouts_path: _layouts
-extensions_path: _extensions
-site_path: .
+layouts_path: layouts
+extensions_path: extensions
+site_path: site
 output_path: www
 ignore:
   - hyde

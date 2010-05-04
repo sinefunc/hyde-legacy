@@ -1,5 +1,7 @@
 module Hyde
   class Page 
+    include Hyde::Utils
+
     attr :filename
     attr :renderer
     attr :meta

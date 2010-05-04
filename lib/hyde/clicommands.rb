@@ -3,19 +3,32 @@ module Hyde
     extend self
 
     def get_controller(str)
-      begin
-        class_name = str.downcase.capitalize.to_sym
-        controller = Hyde::CLICommands.const_get(class_name)
-      rescue NameError
-        STDERR << "Unknown command: #{str}\n"
-        STDERR << "Type `hyde` for a list of commands.\n"
-        exit
+      if ['-v', '--version'].include? str
+        controller = Hyde::CLICommands::Version
+      elsif ['-h', '-?', '--help'].include? str
+        controller = Hyde::CLICommands::Help
+      else
+        begin
+          class_name = str.downcase.capitalize.to_sym
+          controller = Hyde::CLICommands.const_get(class_name)
+        rescue NameError
+          STDERR << "Unknown command: #{str}\n"
+          STDERR << "Type `hyde` for a list of commands.\n"
+          exit
+        end
       end
       controller
     end
 
+    class Version < CLICommand
+      hidden true
+      def self.run(*a)
+        out "Hyde version #{Hyde.version}"
+      end
+    end
+
     class Help < CLICommand
-      desc "Shows help"
+      hidden true
 
       def self.run(*a)
         if a.size == 0
@@ -31,14 +44,20 @@ module Hyde
         log "Usage: hyde <command> [arguments]"
         log ""
         log "Commands:"
+
         CLICommands.constants.each do |class_name|
           klass = CLICommands.const_get(class_name)
           name  = class_name.to_s.downcase
-          puts "  #{name}%s#{klass.description}" % [' ' * (20-name.size)]
+          unless klass.hidden?
+            puts "  #{name}%s#{klass.description}" % [' ' * (20-name.size)]
+          end
         end
 
         log ""
-        log "For more info on a command, type `hyde help <command>`."
+        log "  -h, --help          Prints this help screen"
+        log "  -v, --version       Show version and exit"
+        log ""
+        log "For more info on a command, type `hyde --help <command>`."
       end
     end
 
@@ -50,10 +69,21 @@ module Hyde
     end
 
     class Start < CLICommand
-      desc "Starts the server"
+      desc "Starts the local webserver"
       def self.run(*a)
         project
         system "ruby \"%s\"" % [File.join(lib_path, 'hyde', 'init.rb')]
+      end
+
+      def self.help
+        log "Usage: hyde start"
+        log ""
+        log "This command starts the local webserver. You may then be able to"
+        log "see your site locally by visiting the URL:"
+        log ""
+        log "   http://127.0.0.1:4567"
+        log ""
+        log "You may shut the server down by pressing Ctrl-C."
       end
     end
 

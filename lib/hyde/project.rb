@@ -46,26 +46,6 @@ module Hyde
       ret
     end
 
-    def load_extensions
-      @config.gems.each do |gem|
-        require gem
-      end
-
-      ext_roots = Dir[root :extensions, '*'].select { |d| File.directory? d }
-      ext_roots.each do |dir|
-        ext = File.basename(dir)
-
-        # Try extensions/name/name.rb
-        # Try extensions/name/lib/name.rb
-        ext_files = [
-          File.join(dir, "#{ext}.rb"),
-          File.join(dir, 'lib', "#{ext}.rb")
-        ]
-        ext_files.reject! { |f| not File.exists? f }
-        require ext_files[0]  if ext_files[0]
-      end
-    end
-
     def method_missing(meth, *args, &blk)
       raise NoMethodError, "No method `#{meth}`"  unless @config.include?(meth)
       @config.send meth
@@ -149,6 +129,26 @@ module Hyde
     end
 
     protected
+
+    def load_extensions
+      @config.gems.each do |gem|
+        require gem
+      end
+
+      ext_roots = Dir[root :extensions, '*'].select { |d| File.directory? d }
+      ext_roots.each do |dir|
+        ext = File.basename(dir)
+
+        # Try extensions/name/name.rb
+        # Try extensions/name/lib/name.rb
+        ext_files = [
+          File.join(dir, "#{ext}.rb"),
+          File.join(dir, 'lib', "#{ext}.rb")
+        ]
+        ext_files.reject! { |f| not File.exists? f }
+        require ext_files[0]  if ext_files[0]
+      end
+    end
     def defaults
       { 'layouts_path'    => 'layouts',
         'extensions_path' => 'extensions',

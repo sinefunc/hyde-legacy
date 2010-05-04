@@ -3,6 +3,8 @@ require "ostruct"
 module Hyde
   module Renderer
     class Base
+      include Hyde::Utils
+
       # Reference to {Page}
       attr_reader :page
 
@@ -50,7 +52,7 @@ module Hyde
             # This will let you eval something, and `yield` within that block.
             eval src, &block
           end
-          extend Hyde::TemplateHelpers
+          get_helpers.each { |helper_class| extend helper_class }
         end
 
         scope

@@ -12,7 +12,7 @@ module Hyde
   autoload :Scope,      "#{prefix}/hyde/scope"
   autoload :CLICommand, "#{prefix}/hyde/clicommand"
   autoload :CLICommands,"#{prefix}/hyde/clicommands"
-  autoload :TemplateHelpers,"#{prefix}/hyde/template_helpers"
+  autoload :Helpers,    "#{prefix}/hyde/helpers"
 
   Error = Class.new(::StandardError)
   NoGemError  = Class.new(Error)
@@ -34,5 +34,11 @@ module Hyde
         "line #{@line}: #{@message}" :
         "#{@message}"
     end
+  end
+
+  extend self
+
+  def version
+    @version ||= File.open(File.join(File.dirname(__FILE__), '..', 'VERSION')) { |f| f.read.strip }
   end
 end
