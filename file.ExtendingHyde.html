@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>File: ExtendingHyde</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: ExtendingHyde</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>Extending Hyde</h1>
+
+<h2>Creating extensions</h2>
+
+<p>In your Hyde project's extensions folder (<code>extensions</code> by default), create a file called
+<code>&lt;name&gt;/&lt;name&gt;.rb</code>, where <code>&lt;name&gt;</code> is the name of your extension. This file will automatically loaded.</p>
+
+<p>Example:</p>
+
+<pre class="code"><span class='comment val'># extensions/hyde-blog/hyde-blog.rb</span>
+<span class='module module kw'>module</span> <span class='Hyde constant id'>Hyde</span>
+  <span class='comment val'># Set up autoload hooks for the other classes</span>
+  <span class='prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='__FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span>
+  <span class='autoload identifier id'>autoload</span> <span class='symbol val'>:Blog</span><span class='comma token'>,</span>   <span class='dstring node'>&quot;#{prefix}/lib/blog.rb&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+
+<h2>Creating extensions as gems</h2>
+
+<p>You may also create your extensions as gems. It is recommended to name them as <code>hyde-(name)</code>,
+for instance, <code>hyde-blog</code>.</p>
+
+<p>To load gem extensions in your Hyde project, add them to the <code>gems</code> section of your project's
+config file (typically <code>hyde.conf</code>). Example:</p>
+
+<pre class="code"><span class='comment val'># hyde.conf</span>
+<span class='gems identifier id'>gems</span><span class='colon op'>:</span>
+ <span class='minus op'>-</span> <span class='hyde identifier id'>hyde</span><span class='minus op'>-</span><span class='blog identifier id'>blog</span>
+ <span class='minus op'>-</span> <span class='hyde identifier id'>hyde</span><span class='minus op'>-</span><span class='clean identifier id'>clean</span>
+</pre>
+
+<h2>Adding helpers</h2>
+
+<p>Make a module under <code>Hyde::Helpers</code>. Any functions here will be available to your files.</p>
+
+<p>Example:</p>
+
+<p>In this example, we'll create a simple helper function.</p>
+
+<pre class="code"><span class='comment val'># extensions/hyde-blog/hyde-blog.rb</span>
+<span class='module module kw'>module</span> <span class='Hyde constant id'>Hyde</span>
+  <span class='module module kw'>module</span> <span class='Helpers constant id'>Helpers</span>
+    <span class='module module kw'>module</span> <span class='BlogHelpers constant id'>BlogHelpers</span>
+      <span class='def def kw'>def</span> <span class='form_tag identifier id'>form_tag</span><span class='lparen token'>(</span><span class='meth identifier id'>meth</span><span class='comma token'>,</span> <span class='action identifier id'>action</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='b identifier id'>b</span><span class='rparen token'>)</span>
+        <span class='lbrack token'>[</span> <span class='dstring node'>&quot;&lt;form method='#{meth}' action='#{action}'&gt;&quot;</span><span class='comma token'>,</span>
+          <span class='b identifier id'>b</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;&lt;/form&gt;&quot;</span>
+        <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+
+<p>In your project's site files, you can then now use this helper.</p>
+
+<pre class="code"><span class='comment val'># site/my_page.html.haml</span>
+<span class='h1 identifier id'>h1</span> <span class='My constant id'>My</span> <span class='form identifier id'>form</span>
+<span class='assign token'>=</span> <span class='form_tag identifier id'>form_tag</span> <span class='string val'>'post'</span><span class='comma token'>,</span> <span class='string val'>'/note/new'</span> <span class='do do kw'>do</span>
+  <span class='p identifier id'>p</span>
+    <span class='label identifier id'>label</span> <span class='Your constant id'>Your</span> <span class='name identifier id'>name</span><span class='colon op'>:</span>
+    <span class='input identifier id'>input</span><span class='lbrace token'>{</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text'</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'name'</span> <span class='rbrace token'>}</span>
+  <span class='p identifier id'>p</span>
+    <span class='label identifier id'>label</span> <span class='Your constant id'>Your</span> <span class='email identifier id'>email</span><span class='colon op'>:</span>
+    <span class='input identifier id'>input</span><span class='lbrace token'>{</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text'</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'email'</span> <span class='rbrace token'>}</span>
+</pre>
+
+<h2>Adding commands</h2>
+
+<p>Create a subclass of the class <tt><a href="Hyde/CLICommand.html" title="Hyde::CLICommand (class)">Hyde::CLICommand</a></tt> and place it under the <tt><a href="Hyde/CLICommands.html" title="Hyde::CLICommands (module)">Hyde::CLICommands</a></tt> module.
+The name of the class will be the command it will be accessible as.</p>
+
+<p>This example below defines a new <code>clean</code> command, which will be accessible by typing <code>hyde clean</code>.
+It will also show under <code>hyde --help</code> since it provides a <code>desc</code>.</p>
+
+<pre class="code"><span class='comment val'># extensions/hyde-clean/hyde-clean.rb</span>
+<span class='module module kw'>module</span> <span class='Hyde constant id'>Hyde</span>
+  <span class='module module kw'>module</span> <span class='CLICommands constant id'>CLICommands</span>
+    <span class='class class kw'>class</span> <span class='Clean constant id'>Clean</span>
+      <span class='desc identifier id'>desc</span> <span class='string val'>&quot;Cleans up your project's dirt&quot;</span>
+
+      <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='run identifier id'>run</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='a identifier id'>a</span><span class='rparen token'>)</span>
+        <span class='if if kw'>if</span> <span class='a identifier id'>a</span><span class='dot token'>.</span><span class='size identifier id'>size</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+          <span class='log identifier id'>log</span> <span class='dstring node'>&quot;Unknown arguments: #{a.join(' ')}&quot;</span>
+          <span class='log identifier id'>log</span> <span class='string val'>&quot;Type `hyde --help clean` for more information.&quot;</span>
+          <span class='exit identifier id'>exit</span>
+        <span class='end end kw'>end</span>
+
+        <span class='log identifier id'>log</span> <span class='string val'>&quot;Cleaning...&quot;</span>
+        <span class='comment val'># Do stuff here</span>
+        <span class='log identifier id'>log</span> <span class='string val'>&quot;All clean!&quot;</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+
+<p>This may now be used in the command line.</p>
+
+<pre class="code">$ <span class='hyde identifier id'>hyde</span> <span class='clean identifier id'>clean</span> <span class='all identifier id'>all</span>
+<span class='Unknown constant id'>Unknown</span> <span class='arguments identifier id'>arguments</span><span class='colon op'>:</span> <span class='all identifier id'>all</span>
+<span class='Type constant id'>Type</span> <span class='xstring val'>`hyde --help clean`</span> <span class='for for kw'>for</span> <span class='more identifier id'>more</span> <span class='information identifier id'>information</span><span class='dot token'>.</span>
+
+$ <span class='hyde identifier id'>hyde</span> <span class='clean identifier id'>clean</span>
+<span class='Cleaning constant id'>Cleaning</span><span class='dot3 op'>...</span>
+<span class='All constant id'>All</span> <span class='done! fid id'>done!</span>
+
+$ <span class='hyde identifier id'>hyde</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='help identifier id'>help</span>
+<span class='Usage constant id'>Usage</span><span class='colon op'>:</span> <span class='hyde identifier id'>hyde</span> <span class='lt op'>&lt;</span><span class='command identifier id'>command</span><span class='gt op'>&gt;</span> <span class='arguments identifier id'>arguments</span>
+
+<span class='Commands constant id'>Commands</span><span class='colon op'>:</span>
+   <span class='dot3 op'>...</span><span class='dot token'>.</span>
+   <span class='clean identifier id'>clean</span>            <span class='Cleans constant id'>Cleans</span> <span class='up identifier id'>up</span> <span class='your identifier id'>your</span> <span class='project identifier id'>project</span><span class='string val'>'s dirt
+</span></pre>
+
+<h2>Adding parsers</h2></div></div>
+    
+    <div id="footer">
+  Generated on Tue May  4 20:40:25 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
