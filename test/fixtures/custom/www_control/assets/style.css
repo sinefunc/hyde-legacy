@@ -1,0 +1,6 @@
+body { background: white; }
+.test { outline: 0; }
+#menu {
+  color: red;
+  outline: 0;
+}
