@@ -1,4 +1,0 @@
-Layouts
-=======
-
-`layouts`
