@@ -43,30 +43,73 @@
     
     <div id="content"><div id='filecontents'><h1>Template languages</h1>
 
+<p>Hyde comes with support for some common template languages. This means you can
+write your site in a language like Markdown or HAML, and have Hyde take care
+of translating them accordingly.</p>
+
+<p>If a file ends in one of Hyde's supported file extensions (like <code>.haml</code>), it will be stripped
+out and the file will be rendered using the template engine in that extension (in
+this case, HAML).</p>
+
+<h2>Supported languages</h2>
+
 <p>Hyde supports the following languages out-of-the-box:</p>
 
 <ul>
-<li>HTML template languages
+<li><p>HTML template languages</p>
 
 <ul>
-<li>HAML</li>
-<li>Markdown</li>
-<li>Textile</li>
-<li>ERB</li>
+<li><code>.haml</code> -- HAML</li>
+<li><code>.md</code> -- Markdown</li>
+<li><code>.textile</code> -- Textile</li>
+<li><code>.erb</code> -- ERB (Embedded Ruby)</li>
 </ul>
 </li>
-<li>CSS template languages
+<li><p>CSS template languages</p>
 
 <ul>
-<li>LessCSS</li>
-<li>SASS</li>
+<li><code>.less</code> -- LessCSS</li>
+<li><code>.sass</code> -- SASS</li>
 </ul>
 </li>
+</ul>
+
+
+<p>This means that the following files will be translated accordingly:</p>
+
+<p> | products.html.haml       | becomes <code>products.html</code> (rendered through HAML)       |
+ | control.css.less         | becomes <code>control.css</code> (rendered through Less CSS)     |
+ | site.xml.erb             | becomes <code>site.xml</code> (rendered through Embedded Ruby)   |</p>
+
+<h2>Example</h2>
+
+<p>When creating a new site, have a look at <code>index.html.haml</code>.</p>
+
+<p>...</p>
+
+<h2>Headers</h2>
+
+<p>...</p>
+
+<h2>Layouts</h2>
+
+<p>Layouts are supported for these languages.</p>
+
+<p>...</p>
+
+<h2>Embedded Ruby features</h2>
+
+<p>Some languages (like HAML and ERB) has support for embedding Ruby code in the
+documents. This will let you do some nifty things in Hyde:</p>
+
+<ul>
+<li>Partials</li>
+<li>Helpers</li>
 </ul>
 </div></div>
     
     <div id="footer">
-  Generated on Tue May  4 21:49:47 2010 by 
+  Generated on Wed May  5 10:37:00 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.8.7).
 </div>

@@ -55,24 +55,56 @@ name, along with some sample files to get you started.</p>
 
 <h2>Starting</h2>
 
+<p>Begin working on your project by starting the Hyde webserver. This is optional,
+but is recommended as it's a nice way to see your changes in real time.</p>
+
 <pre class="code"><span class='hyde identifier id'>hyde</span> <span class='start identifier id'>start</span>
 </pre>
 
-<h2>Making your site files</h2>
+<p>After typing this, you will see the server has started. Point your web browser to
+<code>http://localhost:4567</code> to see your site. You should now see your project's
+default "welcome" page.</p>
 
-<p>Edit files under the <code>site</code> folder</p>
+<h2>Editing your site</h2>
 
-<p>(todo)</p>
+<p>Your project has a subfolder called <code>site</code> -- this is where all the site's files are
+stored. In general, dropping any file in this folder will make it accessible with the
+same filename.</p>
+
+<p>Try this: create a file called <code>products.html</code> and fill it up like you would an
+HTML page. After that, point your browser to <code>http://localhost:4567/products.html</code>,
+which should now show the page you were working on.</p>
+
+<p>You may also put your files in subfolders. If you were to create the file
+<code>site/assets/my_style.css</code>, it should be accessible through
+<code>http://localhost:4567/assets/my_style.css</code>.</p>
+
+<h2>Dynamic files</h2>
+
+<p>There are files with two extensions, for instance, <code>index.html.haml</code>. If a file
+ends in one of Hyde's dynamic file extensions (like <code>.haml</code>), it will be stripped
+out and the file will be rendered using the template engine in that extension (in
+this case, HAML).</p>
+
+<p>More about this in the next section.</p>
 
 <h2>Building HTML files</h2>
 
-<p>Build your files by typing</p>
+<p>The <code>hyde start</code> webserver is good for local development, but when it's time to
+deploy your site, you will need to build your files. This process outputs raw
+HTML files for your entire site (for the dynamic files), with Hyde translating
+any files that need translation (e.g., HAML and ERB files).</p>
+
+<p>Build your files by typing this in the command prompt:</p>
 
 <pre class="code"><span class='hyde identifier id'>hyde</span> <span class='build identifier id'>build</span>
-</pre></div></div>
+</pre>
+
+<p>This will create a folder called <code>public/</code> where the built files are stored.
+You can now deploy this folder to your webserver.</p></div></div>
     
     <div id="footer">
-  Generated on Tue May  4 21:49:47 2010 by 
+  Generated on Wed May  5 10:36:59 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.8.7).
 </div>
