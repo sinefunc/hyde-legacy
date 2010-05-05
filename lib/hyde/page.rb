@@ -36,9 +36,6 @@ module Hyde
 
     # Returns the rendered output.
     def render(data = {}, &block)
-      if self.is_a? Layout
-        # puts debug
-      end
       output = @renderer.render(data, &block)
       # BUG: @layout should build on top of that data
       output = @layout.render(@meta.merge data) { output }  unless @layout.nil?

@@ -17,11 +17,11 @@ Usage
 To do
 -----
 
- - partials support
  - _meta.yml 
 
 Done:
 
+ - partials support
  - hyde build
  - extensions support
  - hyde gen

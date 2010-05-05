@@ -13,6 +13,7 @@ module Hyde
   autoload :CLICommand, "#{prefix}/hyde/clicommand"
   autoload :CLICommands,"#{prefix}/hyde/clicommands"
   autoload :Helpers,    "#{prefix}/hyde/helpers"
+  autoload :Partial,    "#{prefix}/hyde/partial"
 
   Error = Class.new(::StandardError)
   NoGemError  = Class.new(Error)

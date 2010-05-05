@@ -5,14 +5,6 @@ class TestHyde < Test::Unit::TestCase
     @project = get_project site
   end
 
-  def get_project(site)
-    Hyde::Project.new fixture(site)
-  end
-
-  def fixture(site)
-    File.join File.dirname(__FILE__), 'fixtures', site
-  end
-
   should "return the right paths" do
     root_path = fixture 'default'
     assert_same_file root_path, @project.root
@@ -35,10 +27,37 @@ class TestHyde < Test::Unit::TestCase
     end
   end
 
+  should "load extensions" do
+    begin
+      CustomExtensionClass # Defined in the site's extensions/custom/custom.rb
+    rescue NameError
+      flunk "Extension wasn't loaded"
+    end
+  end
+
   should "use layouts" do
     output = @project.render 'layout_test.html'
     assert_match /This is the meta title/, output
     assert_match /<!-- \(default layout\) -->/, output
+  end
+
+  should "account for index.html" do
+    home_output = @project.render('index.html')
+    assert_equal home_output, @project.render('/')
+    assert_equal home_output, @project.render('/index.html')
+
+    about_output = @project.render('/about/index.html')
+    assert_equal about_output, @project.render('/about')
+    assert_equal about_output, @project.render('/about/')
+  end
+
+  should "get types right" do
+    page = @project.get_page('index.html')
+    assert page.is_a? Hyde::Page
+
+    layout = @project.get_layout('default')
+    assert layout.is_a? Hyde::Layout
+    assert layout.is_a? Hyde::Page
   end
 
   should "list the project files properly" do

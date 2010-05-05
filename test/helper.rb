@@ -11,4 +11,12 @@ class Test::Unit::TestCase
   def assert_same_file(a, b)
     assert same_file?(a, b)
   end
+
+  def get_project(site)
+    Hyde::Project.new fixture(site)
+  end
+
+  def fixture(site)
+    File.join File.dirname(__FILE__), 'fixtures', site
+  end
 end

@@ -47,7 +47,7 @@ module Hyde
     end
 
     def method_missing(meth, *args, &blk)
-      super unless @config.include?(meth)
+      super  unless @config.include?(meth)
       @config.send meth
     end
 
@@ -58,6 +58,8 @@ module Hyde
         Page.create path, self
       rescue NotFound
         Page.create "#{path}/index.html".squeeze('/'), self
+      rescue NotFound => e
+        raise e
       end
     end
 
