@@ -34,25 +34,25 @@ It's like building a static site, but better! You can use Hyde for:
  - Building sites with no dynamic logic
  - Creating a blog where the entries are stored in a source repository
 
-Basic info
-----------
-
-- {file:AUTHORS Credits}
-- {file:LICENSE License}
-
 Introduction
 ------------
 
-- `++++` {file:Installation Installation}
-- `++--` {file:GettingStarted Getting started}
-- `+---` {file:TemplateLanguages Template languages}
+- `++++` {file:Installation Installation} -- Start here
+- `++++` {file:GettingStarted Getting started}
+- `++--` {file:TemplateLanguages Template languages}
 - `----` {file:Layouts Layouts}
 - `----` {file:Partials Partials}
+- `----` {file:Metadata Metadata}
 - `----` {file:Configuration Configuration}
-- `----` {file:DirectoryStructure Directory structure}
 
 Extending Hyde
 --------------
 
 - `+++-` {file:ExtendingHyde Extending Hyde}
+
+Basic info
+----------
+
+- {file:AUTHORS Credits}
+- {file:LICENSE License}
 

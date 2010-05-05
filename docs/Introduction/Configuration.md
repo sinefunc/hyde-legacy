@@ -1,2 +1,4 @@
 Configuration
 =============
+
+`hyde.conf`
