@@ -47,15 +47,18 @@ module Hyde
     end
 
     def method_missing(meth, *args, &blk)
-      raise NoMethodError, "No method `#{meth}`"  unless @config.include?(meth)
+      super unless @config.include?(meth)
       @config.send meth
     end
 
     # Returns a page in a certain URL path.
     # @return {Page} or a subclass of it
     def get_page(path)
-      path = "index.html"  if path.empty?
-      Page.create path, self
+      begin
+        Page.create path, self
+      rescue NotFound
+        Page.create "#{path}/index.html".squeeze('/'), self
+      end
     end
 
     def get_layout(path)

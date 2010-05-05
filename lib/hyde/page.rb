@@ -46,13 +46,7 @@ module Hyde
     end
 
     def method_missing(meth, *args, &blk)
-      if meta.keys.include?(meth.to_s)
-        meta[meth.to_s]
-      elsif meta.keys.include?(meth.to_sym)
-        meta[meth.to_sym]
-      else
-        raise NoMethodError.new "Undefined method `#{self.class}::#{meth}`"
-      end
+      meta[meth.to_s] || meta[meth.to_sym] || super
     end
 
     def get_binding
@@ -95,13 +89,16 @@ module Hyde
       renderer = nil
       filename = get_filename(path, project)
 
-      if File.exists? filename
+      if File.directory? filename
+        raise NotFound, "`#{path} is a directory, not a file"
+
+      elsif File.exists? filename
         renderer = Hyde::Renderer::Passthru
 
       else
         # Look for the file
         matches = Dir["#{filename}.*"]
-        raise NotFound.new("Can't find `#{path}{,.*}` -- #{filename}") \
+        raise NotFound, "Can't find `#{path}{,.*}` -- #{filename}" \
           if matches.empty?
 
         # Check for a matching renderer

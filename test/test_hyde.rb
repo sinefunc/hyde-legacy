@@ -16,9 +16,9 @@ class TestHyde < Test::Unit::TestCase
   should "return the right paths" do
     root_path = fixture 'default'
     assert_same_file root_path, @project.root
-    assert_same_file File.join(root_path, '_layouts'), \
+    assert_same_file File.join(root_path, 'layouts'), \
                  @project.root(:layouts)
-    assert_same_file File.join(root_path, '_layouts', 'abc'), \
+    assert_same_file File.join(root_path, 'layouts', 'abc'), \
                  @project.root(:layouts, 'abc')
     assert_same_file File.join(root_path, 'layouts', 'abc'), \
                  @project.root('layouts', 'abc')
