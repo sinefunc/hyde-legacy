@@ -1,5 +1,5 @@
---files="docs/*/*"
+--files="manual/*/*"
 --files="AUTHORS"
 --files="LICENSE"
 --files="CHANGELOG"
---main="docs/Hyde.md"
+--main="manual/Hyde.md"
