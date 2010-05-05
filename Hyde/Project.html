@@ -482,28 +482,7 @@ Can raise a NoRootError
   
 
   
-</p><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Raises:</h3>
-<ul class="raise">
-  
-    <li>
-      
-        <span class='type'>(<tt>NoMethodError</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
+</p><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -518,7 +497,7 @@ Can raise a NoRootError
       <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 49</span>
 
 <span class='def def kw'>def</span> <span class='method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='meth identifier id'>meth</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='blk identifier id'>blk</span><span class='rparen token'>)</span>
-  <span class='raise identifier id'>raise</span> <span class='NoMethodError constant id'>NoMethodError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No method `#{meth}`&quot;</span>  <span class='unless unless_mod kw'>unless</span> <span class='@config ivar id'>@config</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='meth identifier id'>meth</span><span class='rparen token'>)</span>
+  <span class='super super kw'>super</span>  <span class='unless unless_mod kw'>unless</span> <span class='@config ivar id'>@config</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='meth identifier id'>meth</span><span class='rparen token'>)</span>
   <span class='@config ivar id'>@config</span><span class='dot token'>.</span><span class='send identifier id'>send</span> <span class='meth identifier id'>meth</span>
 <span class='end end kw'>end</span>
 </pre>
@@ -683,11 +662,6 @@ Where to send the messages
       <pre class="lines">
 
 
-73
-74
-75
-76
-77
 78
 79
 80
@@ -703,10 +677,15 @@ Where to send the messages
 90
 91
 92
-93</pre>
+93
+94
+95
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 78</span>
 
 <span class='def def kw'>def</span> <span class='build identifier id'>build</span><span class='lparen token'>(</span><span class='ostream identifier id'>ostream</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='Errno constant id'>Errno</span><span class='colon2 op'>::</span><span class='EEXISTS constant id'>EEXISTS</span>  <span class='if if_mod kw'>if</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='exists? fid id'>exists?</span> <span class='root identifier id'>root</span><span class='lparen token'>(</span><span class='symbol val'>:output</span><span class='rparen token'>)</span> <span class='and and kw'>and</span> <span class='not not kw'>not</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='directory? fid id'>directory?</span> <span class='root identifier id'>root</span><span class='lparen token'>(</span><span class='symbol val'>:output</span><span class='rparen token'>)</span>
@@ -759,11 +738,6 @@ Returns a list of all URL paths
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
 101
 102
 103
@@ -775,10 +749,15 @@ Returns a list of all URL paths
 109
 110
 111
-112</pre>
+112
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 101</span>
 
 <span class='def def kw'>def</span> <span class='files identifier id'>files</span>
   <span class='@file_list ivar id'>@file_list</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='root identifier id'>root</span><span class='lparen token'>(</span><span class='symbol val'>:site</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>'**'</span><span class='comma token'>,</span> <span class='string val'>'*'</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='inject identifier id'>inject</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='a identifier id'>a</span><span class='comma token'>,</span> <span class='match identifier id'>match</span><span class='bitor op'>|</span>
@@ -873,12 +852,12 @@ Returns a list of all URL paths
       <pre class="lines">
 
 
-61
-62
-63</pre>
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 66</span>
 
 <span class='def def kw'>def</span> <span class='get_layout identifier id'>get_layout</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
   <span class='Layout constant id'>Layout</span><span class='dot token'>.</span><span class='create identifier id'>create</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='self self kw'>self</span>
@@ -935,14 +914,24 @@ or a subclass of it
 56
 57
 58
-59</pre>
+59
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 56</span>
 
 <span class='def def kw'>def</span> <span class='get_page identifier id'>get_page</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
-  <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='string val'>&quot;index.html&quot;</span>  <span class='if if_mod kw'>if</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
-  <span class='Page constant id'>Page</span><span class='dot token'>.</span><span class='create identifier id'>create</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='self self kw'>self</span>
+  <span class='begin begin kw'>begin</span>
+    <span class='Page constant id'>Page</span><span class='dot token'>.</span><span class='create identifier id'>create</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='self self kw'>self</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='NotFound constant id'>NotFound</span>
+    <span class='Page constant id'>Page</span><span class='dot token'>.</span><span class='create identifier id'>create</span> <span class='dstring node'>&quot;#{path}/index.html&quot;</span><span class='dot token'>.</span><span class='squeeze identifier id'>squeeze</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='self self kw'>self</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='NotFound constant id'>NotFound</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='e identifier id'>e</span>
+    <span class='raise identifier id'>raise</span> <span class='e identifier id'>e</span>
+  <span class='end end kw'>end</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -963,17 +952,17 @@ or a subclass of it
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
 119
 120
-121</pre>
+121
+122
+123
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 119</span>
 
 <span class='def def kw'>def</span> <span class='ignore_list identifier id'>ignore_list</span>
   <span class='@ignore_list ivar id'>@ignore_list</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span>
@@ -1014,14 +1003,14 @@ another way
       <pre class="lines">
 
 
-125
-126
-127
-128
-129</pre>
+130
+131
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 130</span>
 
 <span class='def def kw'>def</span> <span class='ignored_files identifier id'>ignored_files</span>
   <span class='@ignored_files ivar id'>@ignored_files</span> <span class='opasgn op'>||=</span> <span class='ignore_list identifier id'>ignore_list</span><span class='dot token'>.</span><span class='inject identifier id'>inject</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='a identifier id'>a</span><span class='comma token'>,</span> <span class='spec identifier id'>spec</span><span class='bitor op'>|</span>
@@ -1058,12 +1047,12 @@ Can throw a NotFound.
       <pre class="lines">
 
 
-66
-67
-68</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/hyde/project.rb', line 71</span>
 
 <span class='def def kw'>def</span> <span class='render identifier id'>render</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
   <span class='get_page identifier id'>get_page</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='render identifier id'>render</span>
@@ -1130,7 +1119,7 @@ The root path (String).
 </div>
     
     <div id="footer">
-  Generated on Wed May  5 12:07:00 2010 by 
+  Generated on Wed May  5 18:03:01 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.8.7).
 </div>

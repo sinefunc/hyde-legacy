@@ -66,12 +66,128 @@
 
 
 
+  
+    <h2>Instance Method Summary</h2>
 
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#partial-instance_method" title="#partial (instance method)">- (Object) <strong>partial</strong>(*a) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#render_partial-instance_method" title="#render_partial (instance method)">- (Object) <strong>render_partial</strong>(partial_path, args = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="partial-instance_method">
+  
+    - (<tt>Object</tt>) <strong>partial</strong>(*a) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/hyde/helpers.rb', line 10</span>
+
+<span class='def def kw'>def</span> <span class='partial identifier id'>partial</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='a identifier id'>a</span><span class='rparen token'>)</span>
+  <span class='render_partial identifier id'>render_partial</span> <span class='mult op'>*</span><span class='a identifier id'>a</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="render_partial-instance_method">
+  
+    - (<tt>Object</tt>) <strong>render_partial</strong>(partial_path, args = {}) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/hyde/helpers.rb', line 4</span>
+
+<span class='def def kw'>def</span> <span class='render_partial identifier id'>render_partial</span><span class='lparen token'>(</span><span class='partial_path identifier id'>partial_path</span><span class='comma token'>,</span> <span class='args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='locals identifier id'>locals</span> <span class='assign token'>=</span> <span class='args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:locals</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='p identifier id'>p</span> <span class='assign token'>=</span> <span class='Partial constant id'>Partial</span><span class='dot token'>.</span><span class='create identifier id'>create</span> <span class='partial_path identifier id'>partial_path</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='project identifier id'>project</span>
+  <span class='p identifier id'>p</span><span class='dot token'>.</span><span class='render identifier id'>render</span> <span class='locals identifier id'>locals</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
     
     <div id="footer">
-  Generated on Wed May  5 12:07:01 2010 by 
+  Generated on Wed May  5 18:03:00 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.8.7).
 </div>
