@@ -55,7 +55,7 @@ class TestHyde < Test::Unit::TestCase
     page = @project.get_page('index.html')
     assert page.is_a? Hyde::Page
 
-    layout = @project.get_layout('default')
+    layout = Hyde::Layout.create 'default', @project
     assert layout.is_a? Hyde::Layout
     assert layout.is_a? Hyde::Page
   end

@@ -4,9 +4,12 @@ module Hyde
     include Hyde::Utils
 
     # The root path (String).
+    #
+    # @example
     #   root
     #   root :layouts
     #   root :site, 'blah'
+    #
     def root(*args)
       where = ''
       where = send("#{args.shift.to_s}_path")  if args[0].class == Symbol
@@ -14,36 +17,21 @@ module Hyde
       File.expand_path(File.join [@root, where, path].reject(&:empty?))
     end
 
-    # The filename of the configuration file, relative to the project root.
+    # The filename of the configuration file, relative to the project root. (String)
+    #
     attr :config_file
 
-    # The configuration k/v storage (Hash)
+    # The configuration k/v storage (OStruct)
+    #
     attr_accessor :config
 
     # Can raise a NoRootError
-    def initialize( root = Dir.pwd )
+    #
+    def initialize(root = Dir.pwd)
       @config = OStruct.new defaults
       @root, @config_file = find_root_from root
       @config.merge! YAML::load_file(@config_file)  if File.exists? @config_file
       load_extensions
-    end
-
-    def find_root_from(start)
-      check = File.expand_path(start)
-      ret = nil
-      while ret.nil?
-        # See if any of these files exist
-        ['_config.yml', 'hyde.conf'].each do |config_name|
-          config_file = File.join(check, config_name)
-          ret ||= [check, config_file]  if File.exists? config_file
-        end
-
-        # Traverse back (die if we reach the root)
-        old_check = check
-        check = File.expand_path(File.join(check, '..'))
-        raise NoRootError  if check == old_check
-      end
-      ret
     end
 
     def method_missing(meth, *args, &blk)
@@ -53,6 +41,7 @@ module Hyde
 
     # Returns a page in a certain URL path.
     # @return {Page} or a subclass of it
+    #
     def get_page(path)
       begin
         Page.create path, self
@@ -63,24 +52,28 @@ module Hyde
       end
     end
 
+    # Returns a layout
+    # (Try Layout.create path, @project instead)
+    #
     def get_layout(path)
       Layout.create path, self
     end
 
     # Can throw a NotFound.
+    #
     def render(path)
-      get_page(path).render
+      Page.create(path, self).render
     end
 
     # Writes the output files.
     # @param
     #   ostream    - (Stream) Where to send the messages
+    #
     def build(ostream = nil)
       raise Errno::EEXISTS  if File.exists? root(:output) and not File.directory? root(:output)
-      Dir.mkdir root(:output)  unless File.directory? root(:output)
+      Dir.mkdir(root :output)  unless File.directory?(root :output)
 
       begin
-        continue = true
         files.each do |path|
           ostream << " * #{output_path}/#{path}\n"  if ostream
           begin
@@ -93,11 +86,12 @@ module Hyde
           end
         end
       rescue NoGemError => e
-        ostream << "Error: #{e.message}\n"
+        ostream << " *** Error: #{e.message}\n"
       end
     end
 
     # Returns a list of all URL paths
+    #
     def files
       @file_list = Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
         # Make sure its the canonical name
@@ -116,6 +110,9 @@ module Hyde
       end
     end
 
+    # Returns a list of file specs to be excluded from processing.
+    # @see {#ignored_files}
+    #
     def ignore_list
       @ignore_list ||= [
         root(:layouts, '**/*'),
@@ -125,21 +122,47 @@ module Hyde
       ]
     end
 
-    # Returns a list of ignored files.
+    # Returns a list of ignored files based on the {ignore_list}.
     # TODO: This is innefficient... do it another way
+    #
     def ignored_files
-      @ignored_files ||= ignore_list.inject([]) { |a, spec|
+      @ignored_files ||= ignore_list.inject([]) do |a, spec|
         Dir[spec].each { |file| a << File.expand_path(file) }; a
-      }
+      end
     end
 
     protected
 
-    def load_extensions
-      @config.gems.each do |gem|
-        require gem
-      end
+    # Looks for the hyde config file to determine the project root.
+    #
+    def find_root_from(start)
+      check = File.expand_path(start)
+      ret = nil
+      while ret.nil?
+        # See if any of these files exist
+        ['_config.yml', 'hyde.conf'].each do |config_name|
+          config_file = File.join(check, config_name)
+          ret ||= [check, config_file]  if File.exists? config_file
+        end
 
+        # Traverse back (die if we reach the root)
+        old_check = check
+        check = File.expand_path(File.join(check, '..'))
+        raise NoRootError  if check == old_check
+      end
+      ret
+    end
+
+    # Loads the ruby files in the extensions folder
+    #
+    def load_extensions
+      # Load the init.rb file
+      require(root 'init.rb')  if File.exists?(root 'init.rb')
+
+      # Load the gems in the config file
+      @config.gems.each { |gem| require gem }
+
+      # Load the extensions
       ext_roots = Dir[root :extensions, '*'].select { |d| File.directory? d }
       ext_roots.each do |dir|
         ext = File.basename(dir)
@@ -154,6 +177,7 @@ module Hyde
         require ext_files[0]  if ext_files[0]
       end
     end
+
     def defaults
       { 'layouts_path'    => 'layouts',
         'extensions_path' => 'extensions',
@@ -164,6 +188,7 @@ module Hyde
     end
 
     # Returns the renderer associated with the given file extension.
+    #
     def get_renderer(name)
       begin
         class_name = name.to_s.capitalize.to_sym

@@ -58,12 +58,13 @@ module Hyde
     # Called by Renderer::Base.
     #
     def set_meta(meta)
+      # TODO: OStruct and stuff
       # Merge
       @meta ||= Hash.new
       @meta.merge! meta
 
       # Set the Layout
-      @layout = @project.get_layout(@meta['layout'])  if @meta['layout']
+      @layout = Layout.create(@meta['layout'], @project)  if @meta['layout']
     end
 
     protected

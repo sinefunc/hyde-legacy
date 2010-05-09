@@ -20,7 +20,7 @@ Put your partial file anywhere in the `layouts` folder, e.g.:
 
 In your site's files, you can invoke a partial through:
 
-    / site/index.html.erb
+    <!-- site/index.html.erb -->
     <h1>Partial:</h1>
     <%= partial 'shared/sidebar' %>
     <span>End of partial.</span>
@@ -28,6 +28,7 @@ In your site's files, you can invoke a partial through:
 
 This will output:
     
+    <!-- public/index.html -->
     <h1>Partial:</h1>
     <div id='#sidebar'>
       <h2><span>Sidebar</span><h2>
@@ -56,7 +57,7 @@ to it by the caller.
 
 In your files, call a partial by:
       
-    # site/index.html.erb
+    <!-- site/index.html.erb -->
     <%= partial 'shared/product', { :name => '5MP Camera CX-300', :description => 'This is a camera with an adjustable focal length and Bluetooth support.' } %>
 
 
