@@ -43,13 +43,7 @@ module Hyde
     # @return {Page} or a subclass of it
     #
     def get_page(path)
-      begin
-        Page.create path, self
-      rescue NotFound
-        Page.create "#{path}/index.html".squeeze('/'), self
-      rescue NotFound => e
-        raise e
-      end
+     Page.create path, self
     end
 
     # Returns a layout

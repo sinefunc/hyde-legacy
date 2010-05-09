@@ -13,6 +13,7 @@ module Hyde
     # @example
     #   puts page.name
     #   puts page.filename
+    #
     #   # about/index.html
     #   # about/index.html.haml
     attr_accessor :filename
@@ -28,10 +29,9 @@ module Hyde
     attr_reader :project
 
     # Factory
-    # Try {Project#get_page} instead
-    def self.create(path, project, page_class = Page)
-      info = get_page_info(path, project)
-      page = page_class.new(path, project, info[:renderer], info[:filename])
+    #
+    def self.create(path, project, def_page_class = Page)
+      PageFactory.create path, project, def_page_class
     end
 
     # Returns the rendered output.
@@ -68,9 +68,11 @@ module Hyde
     end
 
     protected
+
     # Constructor.
     # The `page` argument is a page name
     # Don't use me: use {Project#create}
+    #
     def initialize(path, project, renderer, filename)
       @project    = project
       @name     ||= path
@@ -81,47 +83,6 @@ module Hyde
     
     def self.get_filename(path, project)
       project.root(:site, path)
-    end
-
-    def self.get_page_info(path, project)
-      renderer = nil
-      filename = get_filename(path, project)
-
-      if File.directory? filename
-        raise NotFound, "`#{path} is a directory, not a file"
-
-      elsif File.exists? filename
-        renderer = Hyde::Renderer::Passthru
-
-      else
-        # Look for the file
-        matches = Dir["#{filename}.*"]
-        raise NotFound, "Can't find `#{path}{,.*}` -- #{filename}" \
-          if matches.empty?
-
-        # Check for a matching renderer
-        exts = []
-        matches.each do |match|
-          begin
-            ext      = File.extname(match)[1..-1].capitalize.to_sym
-            exts     << File.extname(match)
-            r_class  = Hyde::Renderers.const_get(ext)
-            renderer ||= r_class
-            filename = match
-          rescue NoMethodError
-            # pass
-          rescue NameError # Renderer not found
-            # pass
-          end
-        end
-
-        raise NotFound.new("No matching (#{exts.join(", ")}) renderers found for `#{path}`") \
-          if renderer.nil?
-      end
-
-      { :renderer => renderer,
-        :filename => filename
-      }
     end
   end
 end
