@@ -23,7 +23,7 @@ module Hyde
       filename = page_class.get_filename(path, project)
 
       if File.directory? filename
-        raise NotFound, "`#{path} is a directory, not a file"
+        raise NotFound, "`#{path}` is a directory, not a file"
 
       elsif File.exists? filename
         renderer = Hyde::Renderer::Passthru

@@ -17,10 +17,13 @@ Usage
 To do
 -----
 
+ - ignores
+ - error pages
  - _meta.yml 
 
 Done:
 
+ - last_modified
  - partials support
  - hyde build
  - extensions support

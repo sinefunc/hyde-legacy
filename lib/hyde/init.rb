@@ -33,13 +33,23 @@ class Main < Sinatra::Base
       path = params[:splat][0]
       type = File.extname(path)[1..-1]
       content_type type.to_sym  if type.is_a? String
-      @@project.render path
+
+      page = Hyde::Page.create path, @@project
+
+      # Send the last modified time
+      last_modified File.mtime(page.filename)
+      cache_control :public, :must_revalidate, :max_age => 60
+
+      page.render
+
     rescue Hyde::RenderError => e
       puts " * `#{path}` error"
       puts " *** #{e.message}".gsub("\n","\n *** ")
       e.message
+
     rescue Hyde::NotFound
       raise Sinatra::NotFound
+
     end
   end
 end
