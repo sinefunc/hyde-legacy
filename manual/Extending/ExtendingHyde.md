@@ -77,7 +77,7 @@ It will also show under `hyde --help` since it provides a `desc`.
     # extensions/hyde-clean/hyde-clean.rb
     module Hyde
       module CLICommands
-        class Clean
+        class Clean < CLICommand
           desc "Cleans up your project's dirt"
 
           def self.run(*a)
