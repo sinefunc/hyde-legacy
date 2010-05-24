@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{hydeweb}
-  s.version = "0.0.3.pre"
+  s.version = "0.0.4"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Rico Sta. Cruz", "Sinefunc, Inc."]
-  s.date = %q{2010-05-04}
+  s.date = %q{2010-05-25}
   s.default_executable = %q{hyde}
   s.description = %q{Website preprocessor}
   s.email = %q{rico@sinefunc.com}
@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
   s.files = [
     ".gitignore",
      ".yardopts",
+     "AUTHORS",
+     "CHANGELOG",
      "LICENSE",
      "README.md",
      "Rakefile",
@@ -31,14 +33,6 @@ Gem::Specification.new do |s|
      "data/new_site/hyde.conf",
      "data/new_site/layouts/default.haml",
      "data/new_site/site/index.html.haml",
-     "docs/Extending/ExtendingHyde.md",
-     "docs/Hyde.md",
-     "docs/Introduction/Configuration.md",
-     "docs/Introduction/GettingStarted.md",
-     "docs/Introduction/Installation.md",
-     "docs/Introduction/Layouts.md",
-     "docs/Introduction/Partials.md",
-     "docs/Introduction/TemplateLanguages.md",
      "hydeweb.gemspec",
      "lib/hyde.rb",
      "lib/hyde/clicommand.rb",
@@ -48,14 +42,26 @@ Gem::Specification.new do |s|
      "lib/hyde/layout.rb",
      "lib/hyde/ostruct.rb",
      "lib/hyde/page.rb",
+     "lib/hyde/page_factory.rb",
+     "lib/hyde/partial.rb",
      "lib/hyde/project.rb",
      "lib/hyde/renderer.rb",
      "lib/hyde/renderers.rb",
      "lib/hyde/utils.rb",
+     "manual/Extending/ExtendingHyde.md",
+     "manual/Hyde.md",
+     "manual/Introduction/Configuration.md",
+     "manual/Introduction/GettingStarted.md",
+     "manual/Introduction/Installation.md",
+     "manual/Introduction/Layouts.md",
+     "manual/Introduction/Metadata.md",
+     "manual/Introduction/Partials.md",
+     "manual/Introduction/TemplateLanguages.md",
      "test/fixtures/custom/_config.yml",
      "test/fixtures/custom/extensions/custom/custom.rb",
      "test/fixtures/custom/layouts/default.haml",
      "test/fixtures/custom/layouts/erbtest.erb",
+     "test/fixtures/custom/layouts/shared/sidebar.haml",
      "test/fixtures/custom/site/about/index.html",
      "test/fixtures/custom/site/assets/common.css.less",
      "test/fixtures/custom/site/assets/style.css.less",
@@ -75,6 +81,7 @@ Gem::Specification.new do |s|
      "test/fixtures/custom/www_control/markdown.html",
      "test/fixtures/custom/www_control/yes.html",
      "test/fixtures/default/_config.yml",
+     "test/fixtures/default/extensions/custom/custom.rb",
      "test/fixtures/default/layouts/default.haml",
      "test/fixtures/default/site/about/index.html",
      "test/fixtures/default/site/foo.html.haml",
@@ -90,6 +97,7 @@ Gem::Specification.new do |s|
      "test/test_all_fixtures.rb",
      "test/test_build.rb",
      "test/test_hyde.rb",
+     "test/test_page.rb",
      "test/test_utils.rb"
   ]
   s.homepage = %q{http://github.com/sinefunc/hyde}
@@ -99,10 +107,12 @@ Gem::Specification.new do |s|
   s.summary = %q{Website preprocessor}
   s.test_files = [
     "test/fixtures/custom/extensions/custom/custom.rb",
+     "test/fixtures/default/extensions/custom/custom.rb",
      "test/helper.rb",
      "test/test_all_fixtures.rb",
      "test/test_build.rb",
      "test/test_hyde.rb",
+     "test/test_page.rb",
      "test/test_utils.rb"
   ]
 
