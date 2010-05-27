@@ -28,6 +28,8 @@ module Hyde
     # A reference to the parent {Project} instance
     attr_reader :project
 
+    attr_accessor :layout
+
     # Factory
     #
     def self.[](path, project, def_page_class = Page)
@@ -43,7 +45,8 @@ module Hyde
     end
 
     def method_missing(meth, *args, &blk)
-      meta[meth.to_s] || meta[meth.to_sym] || super
+      super  unless @meta.respond_to? meth
+      @meta.send meth, *args, &blk
     end
 
     def get_binding
@@ -58,13 +61,8 @@ module Hyde
     # Called by Renderer::Base.
     #
     def set_meta(meta)
-      # TODO: OStruct and stuff
       # Merge
-      @meta ||= Hash.new
       @meta.merge! meta
-
-      # Set the Layout
-      @layout = @project[@meta['layout'], Layout]  if @meta['layout']
     end
 
     protected
@@ -76,7 +74,7 @@ module Hyde
     def initialize(path, project, renderer, filename)
       @project    = project
       @name     ||= path
-      @meta     ||= {}
+      @meta     ||= Meta.new self
       @filename   = filename
       @renderer   = renderer.new(self, filename)
     end

@@ -10,7 +10,7 @@ module Hyde
   autoload :Renderer,    "#{prefix}/hyde/renderer"
   autoload :Renderers,   "#{prefix}/hyde/renderers"
   autoload :Utils,       "#{prefix}/hyde/utils"
-  autoload :Scope,       "#{prefix}/hyde/scope"
+  autoload :Meta,        "#{prefix}/hyde/meta"
   autoload :CLICommand,  "#{prefix}/hyde/clicommand"
   autoload :CLICommands, "#{prefix}/hyde/clicommands"
   autoload :Helpers,     "#{prefix}/hyde/helpers"

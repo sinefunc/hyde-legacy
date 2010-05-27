@@ -6,7 +6,7 @@ rescue LoadError
   exit
 end
 
-$:.unshift File.dirname(__FILE__) + "/.."
+$:.unshift File.dirname(__FILE__) + "/../.."
 require 'hyde'
 
 $project = Hyde::Project.new

@@ -10,10 +10,15 @@ module Hyde
       end
     end
 
-    def force_file_open(filepath)
+    def force_file_open(filepath, &blk)
       require 'fileutils'
       FileUtils.mkdir_p File.dirname(filepath)
-      File.new filepath, 'w'
+
+      if block_given?
+        File.open filepath, 'w', &blk
+      else
+        File.new filepath, 'w'
+      end
     end
 
     # Returns all helper classes under the Hyde::Helpers module.

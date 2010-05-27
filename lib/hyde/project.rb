@@ -34,11 +34,6 @@ module Hyde
       load_extensions
     end
 
-    def method_missing(meth, *args, &blk)
-      super  unless @config.include?(meth)
-      @config.send meth
-    end
-
     # Returns an object in the project.
     # Can be a page, layout, template...
     #
@@ -56,21 +51,25 @@ module Hyde
     #   ostream    - (Stream) Where to send the messages
     #
     def build(ostream = nil)
-      raise Errno::EEXISTS  if File.exists? root(:output) and not File.directory? root(:output)
-      Dir.mkdir(root :output)  unless File.directory?(root :output)
+      if File.exists? root(:output)
+        raise Errno::EEXISTS  unless File.directory? root(:output)
+      else
+        Dir.mkdir root(:output)
+      end
 
       begin
         files.each do |path|
-          ostream << " * #{output_path}/#{path}\n"  if ostream
+          ostream << " * #{@config.output_path}/#{path}\n"  if ostream
+
           begin
-            rendered = render(path)
-            mfile = force_file_open(root(:output, path))
-            mfile << rendered
-            mfile.close
+            rendered = self[path].render
+            force_file_open(root(:output, path)) { |file| file << rendered }
+
           rescue RenderError => e
             ostream << " *** Error: #{e.to_s}".gsub("\n", "\n *** ") << "\n"
           end
         end
+
       rescue NoGemError => e
         ostream << " *** Error: #{e.message}\n"
       end
