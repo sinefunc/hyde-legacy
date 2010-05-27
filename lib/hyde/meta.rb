@@ -7,8 +7,9 @@ module Hyde
       super nil
     end
 
-    def merge(custom)
-      @table.merge custom
+    def |(data)
+      # TODO: Consider OStruct here?
+      @table.merge data  #if data.is_a? Hash
     end
 
     def layout=(value)

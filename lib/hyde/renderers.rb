@@ -16,7 +16,7 @@ module Hyde
       def evaluate(scope, data={}, &block)
         require_lib 'erb'
         @engine = ::ERB.new markup
-        eval("self", scope).eval_block @engine.src, &block
+        eval @engine.src, scope
       end
     end
 

@@ -17,7 +17,7 @@ module Hyde
       end
 
       def render(data, &block)
-        scope = build_scope(page, data)
+        scope = build_scope(page, data, &block)
         evaluate scope, data, &block
       end
 
@@ -37,21 +37,18 @@ module Hyde
         end
       end
 
-      def build_scope(page, data)
+      def build_scope(page, data, &block)
         # Page is the scope
-        scope = page.get_binding
+        scope = page.get_binding &block
         scope_object = eval("self", scope)
 
         # Inherit local vars
-        scope_object.send(:instance_variable_set, '@_locals', data)
-        f_set_locals = data.keys.map { |k| "#{k} = @_locals[#{k.inspect}];" }.join("\n")
+        data_object = data.inject({}) { |a, i| a[i[0].to_s] = i[1]; a }
+        scope_object.send(:instance_variable_set, '@_locals', data_object)
+        f_set_locals = data_object.keys.map { |k| "#{k} = @_locals[#{k.inspect}];" }.join("\n")
         eval(f_set_locals, scope)
 
         scope_object.instance_eval do
-          def eval_block(src, &block)
-            # This will let you eval something, and `yield` within that block.
-            eval src, &block
-          end
           get_helpers.each { |helper_class| extend helper_class }
         end
 

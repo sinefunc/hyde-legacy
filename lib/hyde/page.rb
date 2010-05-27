@@ -38,18 +38,13 @@ module Hyde
 
     # Returns the rendered output.
     def render(data = {}, &block)
+      data = @meta | data
       output = @renderer.render(data, &block)
-      output = @layout.render(@meta.merge data) { output }  unless @layout.nil?
+      output = @layout.render(data) { output }  unless @layout.nil?
       output
     end
 
-    # Needed by helpers
-    def method_missing(meth, *args, &blk)
-      super  unless @meta.respond_to? meth
-      @meta.send meth, *args, &blk
-    end
-
-    def get_binding
+    def get_binding(&blk)
       binding
     end
 
