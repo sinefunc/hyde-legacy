@@ -39,11 +39,11 @@ module Hyde
     # Returns the rendered output.
     def render(data = {}, &block)
       output = @renderer.render(data, &block)
-      # BUG: @layout should build on top of that data
       output = @layout.render(@meta.merge data) { output }  unless @layout.nil?
       output
     end
 
+    # Needed by helpers
     def method_missing(meth, *args, &blk)
       super  unless @meta.respond_to? meth
       @meta.send meth, *args, &blk
@@ -51,18 +51,6 @@ module Hyde
 
     def get_binding
       binding
-    end
-
-    # Sets the meta data as read from the file.
-    #
-    # Params:
-    #   meta   - The metadata Hash.
-    #
-    # Called by Renderer::Base.
-    #
-    def set_meta(meta)
-      # Merge
-      @meta.merge! meta
     end
 
     protected

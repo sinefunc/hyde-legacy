@@ -76,7 +76,7 @@ module Hyde
           @markup = parts[0]
         else
           @markup = parts[1]
-          page.set_meta YAML::load("--- " + parts[0])
+          page.meta.merge! YAML::load("--- " + parts[0])
         end
       end
 
