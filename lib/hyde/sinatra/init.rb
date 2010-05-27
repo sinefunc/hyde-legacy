@@ -34,7 +34,7 @@ class Main < Sinatra::Base
       type = File.extname(path)[1..-1]
       content_type type.to_sym  if type.is_a? String
 
-      page = Hyde::Page.create path, @@project
+      page = @@project[path]
 
       # Send the last modified time
       last_modified File.mtime(page.filename)
@@ -43,7 +43,7 @@ class Main < Sinatra::Base
       page.render
 
     rescue Hyde::RenderError => e
-      puts " * `#{path}` error"
+      puts " * `#{path}` line #{e.line} error"
       puts " *** #{e.message}".gsub("\n","\n *** ")
       e.message
 

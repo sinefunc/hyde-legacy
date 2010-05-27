@@ -20,3 +20,12 @@ class Test::Unit::TestCase
     File.join File.dirname(__FILE__), 'fixtures', site
   end
 end
+
+module Hyde
+  class Project
+    # Can throw a NotFound. Get rid of this!
+    def render(path)
+      self[path].render
+    end
+  end
+end

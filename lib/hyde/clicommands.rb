@@ -72,7 +72,7 @@ module Hyde
       desc "Starts the local webserver"
       def self.run(*a)
         project
-        system "ruby \"%s\"" % [File.join(lib_path, 'hyde', 'init.rb')]
+        system "ruby \"%s\"" % [File.join(lib_path, 'hyde', 'sinatra', 'init.rb')]
       end
 
       def self.help

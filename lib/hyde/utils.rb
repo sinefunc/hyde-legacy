@@ -18,7 +18,7 @@ module Hyde
 
     # Returns all helper classes under the Hyde::Helpers module.
     def get_helpers
-      Hyde::Helpers.constants.inject([]) do |a, constant|
+      Hyde::Helpers.constants.inject([Hyde::Helpers]) do |a, constant|
         mod = Hyde::Helpers.const_get(constant)
         a << mod  if mod.is_a? Module
         a

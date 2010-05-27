@@ -3,7 +3,7 @@ require 'helper'
 class TestPage < Test::Unit::TestCase
   def setup(site = 'default')
     @project = get_project site
-    @page = @project.get_page 'index.html'
+    @page = Hyde::Page['index.html', @project]
   end
 
   should "raise a method missing error" do

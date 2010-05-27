@@ -3,6 +3,14 @@ module Hyde
   class Project
     include Hyde::Utils
 
+    # The filename of the configuration file, relative to the project root. (String)
+    #
+    attr :config_file
+
+    # The configuration k/v storage (OStruct)
+    #
+    attr_accessor :config
+
     # The root path (String).
     #
     # @example
@@ -12,18 +20,10 @@ module Hyde
     #
     def root(*args)
       where = ''
-      where = send("#{args.shift.to_s}_path")  if args[0].class == Symbol
+      where = @config.send("#{args.shift.to_s}_path")  if args[0].class == Symbol
       path = args
       File.expand_path(File.join [@root, where, path].reject(&:empty?))
     end
-
-    # The filename of the configuration file, relative to the project root. (String)
-    #
-    attr :config_file
-
-    # The configuration k/v storage (OStruct)
-    #
-    attr_accessor :config
 
     # Can raise a NoRootError
     #
@@ -39,24 +39,16 @@ module Hyde
       @config.send meth
     end
 
-    # Returns a page in a certain URL path.
-    # @return {Page} or a subclass of it
+    # Returns an object in the project.
+    # Can be a page, layout, template...
     #
-    def get_page(path)
-     Page.create path, self
-    end
-
-    # Returns a layout
-    # (Try Layout.create path, @project instead)
-    #
-    def get_layout(path)
-      Layout.create path, self
-    end
-
-    # Can throw a NotFound.
-    #
-    def render(path)
-      Page.create(path, self).render
+    # @example
+    #   @project['index.html']
+    #   @project['default', :Layout]
+    #   @project['widgets/sidebar', :Partial]
+    def [](name, default_class=Page)
+      default_class = ::Hyde.const_get(default_class)  if default_class.is_a? Symbol
+      Hyde::Page[name, self, default_class]
     end
 
     # Writes the output files.

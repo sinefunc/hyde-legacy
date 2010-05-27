@@ -36,26 +36,26 @@ class TestHyde < Test::Unit::TestCase
   end
 
   should "use layouts" do
-    output = @project.render 'layout_test.html'
+    output = @project['layout_test.html'].render
     assert_match /This is the meta title/, output
     assert_match /<!-- \(default layout\) -->/, output
   end
 
   should "account for index.html" do
-    home_output = @project.render('index.html')
-    assert_equal home_output, @project.render('/')
-    assert_equal home_output, @project.render('/index.html')
+    home_output = @project['index.html'].render
+    assert_equal home_output, @project['/'].render
+    assert_equal home_output, @project['/index.html'].render
 
-    about_output = @project.render('/about/index.html')
-    assert_equal about_output, @project.render('/about')
-    assert_equal about_output, @project.render('/about/')
+    about_output = @project['/about/index.html'].render
+    assert_equal about_output, @project['/about'].render
+    assert_equal about_output, @project['/about/'].render
   end
 
   should "get types right" do
-    page = @project.get_page('index.html')
+    page = @project['index.html']
     assert page.is_a? Hyde::Page
 
-    layout = Hyde::Layout.create 'default', @project
+    layout = @project['default', Hyde::Layout]
     assert layout.is_a? Hyde::Layout
     assert layout.is_a? Hyde::Page
   end

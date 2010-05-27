@@ -30,7 +30,7 @@ module Hyde
 
     # Factory
     #
-    def self.create(path, project, def_page_class = Page)
+    def self.[](path, project, def_page_class = Page)
       PageFactory.create path, project, def_page_class
     end
 
@@ -64,14 +64,14 @@ module Hyde
       @meta.merge! meta
 
       # Set the Layout
-      @layout = Layout.create(@meta['layout'], @project)  if @meta['layout']
+      @layout = @project[@meta['layout'], Layout]  if @meta['layout']
     end
 
     protected
 
     # Constructor.
     # The `page` argument is a page name
-    # Don't use me: use {Project#create}
+    # Don't use me: use {Project#[]}
     #
     def initialize(path, project, renderer, filename)
       @project    = project
