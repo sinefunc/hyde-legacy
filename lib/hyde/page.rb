@@ -2,20 +2,17 @@ module Hyde
   class Page 
     include Hyde::Utils
 
-    attr :filename
     attr :renderer
-    attr :meta
-    attr :page
-    attr :layout
-    attr :project
 
     # The filename of the source file.
+    #
     # @example
     #   puts page.name
     #   puts page.filename
     #
     #   # about/index.html
     #   # about/index.html.haml
+    #
     attr_accessor :filename
 
     # Metadata hash

@@ -30,7 +30,7 @@ module Hyde
     def initialize(root = Dir.pwd)
       @config = OStruct.new defaults
       @root, @config_file = find_root_from root
-      @config.merge! YAML::load_file(@config_file)  if File.exists? @config_file
+      @config.merge! YAML::load_file(@config_file)
       load_extensions
     end
 
@@ -41,6 +41,7 @@ module Hyde
     #   @project['index.html']
     #   @project['default', :Layout]
     #   @project['widgets/sidebar', :Partial]
+    #
     def [](name, default_class=Page)
       default_class = ::Hyde.const_get(default_class)  if default_class.is_a? Symbol
       Hyde::Page[name, self, default_class]
