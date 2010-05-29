@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{hydeweb}
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Rico Sta. Cruz", "Sinefunc, Inc."]
-  s.date = %q{2010-05-25}
+  s.date = %q{2010-05-30}
   s.default_executable = %q{hyde}
   s.description = %q{Website preprocessor}
   s.email = %q{rico@sinefunc.com}
@@ -33,13 +33,14 @@ Gem::Specification.new do |s|
      "data/new_site/hyde.conf",
      "data/new_site/layouts/default.haml",
      "data/new_site/site/index.html.haml",
+     "data/pages/404.html",
      "hydeweb.gemspec",
      "lib/hyde.rb",
      "lib/hyde/clicommand.rb",
      "lib/hyde/clicommands.rb",
      "lib/hyde/helpers.rb",
-     "lib/hyde/init.rb",
      "lib/hyde/layout.rb",
+     "lib/hyde/meta.rb",
      "lib/hyde/ostruct.rb",
      "lib/hyde/page.rb",
      "lib/hyde/page_factory.rb",
@@ -47,6 +48,7 @@ Gem::Specification.new do |s|
      "lib/hyde/project.rb",
      "lib/hyde/renderer.rb",
      "lib/hyde/renderers.rb",
+     "lib/hyde/sinatra/init.rb",
      "lib/hyde/utils.rb",
      "manual/Extending/ExtendingHyde.md",
      "manual/Hyde.md",
@@ -93,6 +95,15 @@ Gem::Specification.new do |s|
      "test/fixtures/default/www_control/index.html",
      "test/fixtures/default/www_control/layout_test.html",
      "test/fixtures/default/www_control/yes.html",
+     "test/fixtures/two/_config.yml",
+     "test/fixtures/two/layouts/default.haml",
+     "test/fixtures/two/layouts/shared/test.haml",
+     "test/fixtures/two/site/default.html.haml",
+     "test/fixtures/two/site/index.html.haml",
+     "test/fixtures/two/site/var.html.haml",
+     "test/fixtures/two/www_control/default.html",
+     "test/fixtures/two/www_control/index.html",
+     "test/fixtures/two/www_control/var.html",
      "test/helper.rb",
      "test/test_all_fixtures.rb",
      "test/test_build.rb",
