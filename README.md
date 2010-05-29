@@ -18,13 +18,13 @@ To do
 -----
 
  - ignores
- - content_for
  - error pages
  - page types
  - _meta.yml 
 
 Done:
 
+ - content_for
  - partials_path
  - last_modified
  - partials support
