@@ -27,10 +27,16 @@ module Hyde
 
     attr_accessor :layout
 
+    attr_writer :referrer
+
     # Factory
     #
     def self.[](path, project, def_page_class = Page)
       PageFactory.create path, project, def_page_class
+    end
+
+    def referrer
+      @referrer.nil? ? name : @referrer
     end
 
     # Returns the rendered output.
