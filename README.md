@@ -24,6 +24,7 @@ To do
 
 Done:
 
+ - default extensions
  - version checking
  - content_for
  - partials_path

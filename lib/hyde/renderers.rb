@@ -21,6 +21,10 @@ module Hyde
     end
 
     class Less < Renderer::Base
+      def self.default_ext
+        '.css'
+      end
+
       def evaluate(scope, data={}, &block)
         require_lib 'less'
         begin
@@ -50,6 +54,10 @@ module Hyde
     end
 
     class Textile < Renderer::Parsable
+      def self.default_ext
+        '.css'
+      end
+
       def evaluate(s, d={}, &block)
         require_lib 'redcloth', 'RedCloth'
         RedCloth.new(markup).to_html

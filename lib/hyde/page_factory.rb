@@ -1,12 +1,15 @@
 module Hyde
   class PageFactory
     def self.create(path, project, def_page_class = Page)
+      ext = File.extname(path)
       begin
         do_create path, project, def_page_class
       rescue NotFound
-        do_create "#{path}/index.html".squeeze('/'), project, def_page_class
-      rescue NotFound => e
-        raise e
+        begin
+          do_create "#{path.chomp(ext)}", project, def_page_class
+        rescue NotFound
+          do_create "#{path}/index.html".squeeze('/'), project, def_page_class
+        end
       end
     end
 

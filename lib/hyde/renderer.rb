@@ -26,7 +26,11 @@ module Hyde
         @markup
       end
 
-      protected
+      def self.default_ext
+        ''
+      end
+
+    protected
       def require_lib(lib, gem=lib)
         begin
           require lib
@@ -63,6 +67,10 @@ module Hyde
 
     # Any filetype that is split with the -- separator
     class Parsable < Base
+      def self.default_ext
+        '.html'
+      end
+
       def initialize(page, filename)
         super page, filename
         

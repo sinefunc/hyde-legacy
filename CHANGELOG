@@ -6,7 +6,8 @@ v0.0.5 - 2010-xx-xx
  - Changed helper method `partial`s syntax (from `partial X, :locals => { ... }` to `partial X, ...`)
  - Line numbers for errors are shown now
  - Added rudimentary 404 page
- - Added `hyde_requirement` config variable -- Hyde will now not continue if it's incompatible with the project
+ - Added `hyde_requirement` config variable -- Hyde will now not proceed if the project needs a later version of Hyde
+ - Extensions are now auto-guessed (for example, 'foo.less' will be accessible as 'foo.css')
 
 v0.0.4 - 2010-05-25
 -------------------

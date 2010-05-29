@@ -94,7 +94,9 @@ module Hyde
         if ignored_files.include?(path) or File.directory?(match)
           # pass
         elsif not get_renderer(ext).nil? # Has a renderer associated
-          a << file.chomp(".#{ext}")
+          fname = file.chomp(".#{ext}")
+          fname += get_renderer(ext).default_ext  unless File.basename(fname).include?('.')
+          a << fname
         else
           a << file
         end
@@ -110,8 +112,9 @@ module Hyde
         root(:layouts, '**/*'),
         root(:extensions, '**/*'),
         root(:output, '**/*'),
+        root(:partials, '**/*'),
         @config_file
-      ]
+      ].uniq
     end
 
     # Returns a list of ignored files based on the {ignore_list}.

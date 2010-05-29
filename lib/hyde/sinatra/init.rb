@@ -49,8 +49,6 @@ class Main < Sinatra::Base
 
     rescue Hyde::NotFound
       raise Sinatra::NotFound
-
-    #rescue => e
     end
   end
 
