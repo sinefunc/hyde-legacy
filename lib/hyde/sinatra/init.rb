@@ -50,7 +50,13 @@ class Main < Sinatra::Base
     rescue Hyde::NotFound
       raise Sinatra::NotFound
 
+    #rescue => e
     end
+  end
+
+  not_found do
+    html_path = File.join(File.dirname(__FILE__), %w[.. .. .. data pages 404.html])
+    File.open(html_path) { |f| f.read } + (" "*4096)
   end
 end
 

@@ -1,1 +1,11 @@
+v0.0.5
+------
+ - Implemented `content_for` and `yield_content` helpers
+ - Added `partials_path` config variable
+ - Changed helper method `partial`s syntax (from `partial X, :locals => { ... }` to `partial X, ...`)
+ - Line numbers are shown now
+ - Added rudimentary 404 page
 
+v0.0.4
+------
+ - First public release
