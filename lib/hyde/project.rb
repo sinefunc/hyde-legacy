@@ -31,6 +31,12 @@ module Hyde
       @config = OStruct.new defaults
       @root, @config_file = find_root_from root
       @config.merge! YAML::load_file(@config_file)
+
+      # Check for version
+      raise IncompatibleError, "This project requires at least Hyde v#{@config.hyde_requirement}." \
+        unless @config.hyde_requirement.nil? or \
+          ::Hyde.compatible_with?(@config.hyde_requirement)
+
       load_extensions
     end
 

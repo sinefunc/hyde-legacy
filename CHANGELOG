@@ -1,11 +1,13 @@
-v0.0.5
-------
+v0.0.5 - 2010-xx-xx
+-------------------
+
  - Implemented `content_for` and `yield_content` helpers
  - Added `partials_path` config variable
  - Changed helper method `partial`s syntax (from `partial X, :locals => { ... }` to `partial X, ...`)
- - Line numbers are shown now
+ - Line numbers for errors are shown now
  - Added rudimentary 404 page
+ - Added `hyde_requirement` config variable -- Hyde will now not continue if it's incompatible with the project
 
-v0.0.4
-------
+v0.0.4 - 2010-05-25
+-------------------
  - First public release

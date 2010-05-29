@@ -9,6 +9,11 @@ require 'hyde'
 # This will load the extensions
 begin
   $project = Hyde::Project.new
+
+rescue Hyde::IncompatibleError => e
+  $stderr << e.message << "\n"
+  exit
+
 rescue Hyde::NoRootError; end
 
 if ARGV.size == 0

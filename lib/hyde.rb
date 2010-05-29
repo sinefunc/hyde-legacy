@@ -17,9 +17,10 @@ module Hyde
   autoload :Partial,     "#{prefix}/hyde/partial"
 
   Error = Class.new(::StandardError)
-  NoGemError  = Class.new(Error)
-  NotFound    = Class.new(Error)
-  NoRootError = Class.new(Error) 
+  NoGemError        = Class.new(Error)
+  NotFound          = Class.new(Error)
+  NoRootError       = Class.new(Error) 
+  IncompatibleError = Class.new(Error)
 
   class RenderError < Error
     attr_accessor :message
@@ -42,5 +43,9 @@ module Hyde
 
   def version
     @version ||= File.open(File.join(File.dirname(__FILE__), '..', 'VERSION')) { |f| f.read.strip }
+  end
+
+  def compatible_with?(given_version)
+    Gem::Version.new(version) >= Gem::Version.new(given_version)
   end
 end
