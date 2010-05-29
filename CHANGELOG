@@ -1,4 +1,10 @@
-v0.0.5 - 2010-xx-xx
+v0.0.6
+------
+
+ - Partials path is now not ignored by default
+ - Added support for blocks for `yield_content` (as default text)
+
+v0.0.5 - 2010-05-30
 -------------------
 
  - Implemented `content_for` and `yield_content` helpers

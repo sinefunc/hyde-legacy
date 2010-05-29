@@ -112,7 +112,6 @@ module Hyde
         root(:layouts, '**/*'),
         root(:extensions, '**/*'),
         root(:output, '**/*'),
-        root(:partials, '**/*'),
         @config_file
       ].uniq
     end

@@ -20,7 +20,6 @@ module Hyde
 
     def yield_content(key, *args)
       block = content_blocks[key.to_sym]
-      return ''  if block.nil?
 
       if respond_to?(:block_is_haml?) && block_is_haml?(block)
         capture_haml *args, &block
