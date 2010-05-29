@@ -18,11 +18,14 @@ To do
 -----
 
  - ignores
+ - content_for
  - error pages
+ - page types
  - _meta.yml 
 
 Done:
 
+ - partials_path
  - last_modified
  - partials support
  - hyde build

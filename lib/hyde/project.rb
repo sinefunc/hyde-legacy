@@ -167,6 +167,7 @@ module Hyde
     def defaults
       { 'layouts_path'    => 'layouts',
         'extensions_path' => 'extensions',
+        'partials_path'   => 'layouts',
         'site_path'       => 'site',
         'output_path'     => 'public',
         'gems'            => []

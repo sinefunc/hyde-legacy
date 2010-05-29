@@ -41,7 +41,7 @@ module Hyde
       output
     end
 
-    def get_binding(&blk)
+    def get_binding #(&blk)
       binding
     end
 
