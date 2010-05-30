@@ -28,7 +28,7 @@ module Hyde
       elsif block.respond_to?(:call)
         block.call *args
 
-      elsif block_given? and respond_to?(:capture_haml)
+      elsif block_given? and respond_to(:block_is_haml?) and block_is_haml?(default_block)
         capture_haml *args, &default_block
 
       elsif block_given?
