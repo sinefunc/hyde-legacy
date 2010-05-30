@@ -27,16 +27,12 @@ module Hyde
 
     attr_accessor :layout
 
-    attr_writer :referrer
+    attr_accessor :referrer
 
     # Factory
     #
     def self.[](path, project, def_page_class = Page)
       PageFactory.create path, project, def_page_class
-    end
-
-    def referrer
-      @referrer.nil? ? name : @referrer
     end
 
     # Returns the rendered output.
@@ -49,6 +45,14 @@ module Hyde
 
     def get_binding #(&blk)
       binding
+    end
+
+    def to_s
+      name
+    end
+
+    def to_sym
+      (filename).to_sym
     end
 
     protected

@@ -3,6 +3,7 @@ v0.0.6
 
  - Partials path is now not ignored by default
  - Added support for blocks for `yield_content` (as default text)
+ - `Page#referrer` now is a page (instead of a string of the name)
 
 v0.0.5 - 2010-05-30
 -------------------
