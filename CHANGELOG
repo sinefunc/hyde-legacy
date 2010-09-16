@@ -1,3 +1,8 @@
+\nn.n.n / 2010-09-08 \n==================\n
+  * fixes for non-HAML content_for
+  * Added support for args in content_yield; improved on content-for test case
+  * Fixed yield_content for HAML; fixed Page#referrer; added rudimentary tests for content_for
+  * Added support for blocks in content_for; partials_path is now not ignored by default
 v0.0.6
 ------
 

@@ -15,9 +15,11 @@ class Main < Sinatra::Base
   @@project ||= $project
 
   def self.show_start
+    port = $project.config.port
+
     puts "Starting server..."
-    puts "  http://127.0.0.1:4567      Homepage"
-    puts "  http://127.0.0.1:4567/-    File list"
+    puts "  http://127.0.0.1:#{port}      Homepage"
+    puts "  http://127.0.0.1:#{port}/-    File list"
     puts ""
   end
 
@@ -59,4 +61,4 @@ class Main < Sinatra::Base
 end
 
 Main.show_start
-Main.run!
+Main.run! :port => $project.config.port

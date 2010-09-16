@@ -76,12 +76,13 @@ module Hyde
       end
 
       def self.help
+        port = project.config.port
         log "Usage: hyde start"
         log ""
         log "This command starts the local webserver. You may then be able to"
         log "see your site locally by visiting the URL:"
         log ""
-        log "   http://127.0.0.1:4567"
+        log "   http://127.0.0.1:#{port}"
         log ""
         log "You may shut the server down by pressing Ctrl-C."
       end

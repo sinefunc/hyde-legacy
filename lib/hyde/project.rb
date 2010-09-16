@@ -178,6 +178,7 @@ module Hyde
         'partials_path'   => 'layouts',
         'site_path'       => 'site',
         'output_path'     => 'public',
+        'port'            => 4833,
         'gems'            => []
       }
     end
