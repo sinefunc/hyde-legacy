@@ -58,7 +58,13 @@ module Hyde
     end
 
     def title
-      meta.title || File.basename(filename, '.*')
+      @title ||= if meta.title
+        meta.title
+      elsif is_index?
+        File.basename(File.dirname(filename))
+      else
+        File.basename(filename, '.*')
+      end
     end
 
     # Returns the URL path for the page.
