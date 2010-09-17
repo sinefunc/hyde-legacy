@@ -20,6 +20,7 @@ pkg
 
 ## PROJECT::SPECIFIC
 .rvmrc
+rdoc
 .yardoc
 doc
 www
