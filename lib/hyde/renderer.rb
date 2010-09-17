@@ -38,13 +38,11 @@ module Hyde
         @markup
       end
 
-      def default_ext(*a)
-        self.class.default_ext(*a)
-      end
+      def layoutable?(*a) self.class.layoutable?(*a); end
+      def default_ext(*a) self.class.default_ext(*a); end
 
-      def self.default_ext
-        ''
-      end
+      def self.layoutable?() false; end
+      def self.default_ext() ''; end
 
     protected
       def require_lib(lib, gem=lib)

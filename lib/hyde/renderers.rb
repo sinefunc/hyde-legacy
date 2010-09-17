@@ -1,6 +1,9 @@
 module Hyde
   module Renderers
     class Haml < Renderer::Parsable
+      def self.layoutable?()  true; end
+      def self.default_ext() '.html'; end
+
       def evaluate(scope, data={}, &block)
         require_lib 'haml'
         begin
@@ -13,6 +16,7 @@ module Hyde
     end
 
     class Erb < Renderer::Parsable
+      def self.layoutable?()  true; end
       def self.default_ext() '.html'; end
 
       def evaluate(scope, data={}, &block)
@@ -49,6 +53,7 @@ module Hyde
     #end
 
     class Md < Renderer::Parsable
+      def self.layoutable?()  true; end
       def self.default_ext() '.html'; end
 
       def evaluate(s, d={}, &block)
@@ -58,6 +63,7 @@ module Hyde
     end
 
     class Textile < Renderer::Parsable
+      def self.layoutable?()  true; end
       def self.default_ext() '.html'; end
 
       def evaluate(s, d={}, &block)
