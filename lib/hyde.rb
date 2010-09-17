@@ -1,20 +1,21 @@
 require 'yaml'
 
 module Hyde
-  prefix = File.dirname(__FILE__)
-  autoload :OStruct,     "#{prefix}/hyde/ostruct"
-  autoload :Project,     "#{prefix}/hyde/project"
-  autoload :Layout,      "#{prefix}/hyde/layout"
-  autoload :Page,        "#{prefix}/hyde/page"
-  autoload :PageFactory, "#{prefix}/hyde/page_factory"
-  autoload :Renderer,    "#{prefix}/hyde/renderer"
-  autoload :Renderers,   "#{prefix}/hyde/renderers"
-  autoload :Utils,       "#{prefix}/hyde/utils"
-  autoload :Meta,        "#{prefix}/hyde/meta"
-  autoload :CLICommand,  "#{prefix}/hyde/clicommand"
-  autoload :CLICommands, "#{prefix}/hyde/clicommands"
-  autoload :Helpers,     "#{prefix}/hyde/helpers"
-  autoload :Partial,     "#{prefix}/hyde/partial"
+  LIB_PATH = File.dirname(__FILE__)
+
+  autoload :OStruct,     "#{LIB_PATH}/hyde/ostruct"
+  autoload :Project,     "#{LIB_PATH}/hyde/project"
+  autoload :Layout,      "#{LIB_PATH}/hyde/layout"
+  autoload :Page,        "#{LIB_PATH}/hyde/page"
+  autoload :PageFactory, "#{LIB_PATH}/hyde/page_factory"
+  autoload :Renderer,    "#{LIB_PATH}/hyde/renderer"
+  autoload :Renderers,   "#{LIB_PATH}/hyde/renderers"
+  autoload :Utils,       "#{LIB_PATH}/hyde/utils"
+  autoload :Meta,        "#{LIB_PATH}/hyde/meta"
+  autoload :CLICommand,  "#{LIB_PATH}/hyde/clicommand"
+  autoload :CLICommands, "#{LIB_PATH}/hyde/clicommands"
+  autoload :Helpers,     "#{LIB_PATH}/hyde/helpers"
+  autoload :Partial,     "#{LIB_PATH}/hyde/partial"
 
   Error = Class.new(::StandardError)
   NoGemError        = Class.new(Error)

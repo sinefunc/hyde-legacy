@@ -88,6 +88,16 @@ module Hyde
       end
     end
 
+    class Console < CLICommand
+      desc "Starts a console"
+
+      def self.run(*a)
+        path = File.join(Hyde::LIB_PATH, 'hyde_misc', 'console.rb')
+        cmd = "irb -r\"#{path}\""
+        system cmd
+      end
+    end
+
     class Create < CLICommand
       desc "Starts a new Hyde project"
       def self.run(*a)
