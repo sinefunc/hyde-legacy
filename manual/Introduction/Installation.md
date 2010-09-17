@@ -10,7 +10,7 @@ by typing `ruby --version` in the command line.
 
 Install Hyde by typing:
 
-    gem install hyde
+    gem install hydeweb
 
-If this process fails, you can instead try `sudo gem install hyde`.
+If this process fails, you can instead try `sudo gem install hydeweb`.
 

@@ -20,7 +20,7 @@ but is recommended as it's a nice way to see your changes in real time.
     hyde start
 
 After typing this, you will see the server has started. Point your web browser to
-`http://localhost:4567` to see your site. You should now see your project's
+`http://localhost:4833` to see your site. You should now see your project's
 default "welcome" page.
 
 
@@ -32,22 +32,20 @@ stored. In general, dropping any file in this folder will make it accessible wit
 same filename.
 
 Try this: create a file called `products.html` and fill it up like you would an
-HTML page. After that, point your browser to `http://localhost:4567/products.html`,
+HTML page. After that, point your browser to `http://localhost:4833/products.html`,
 which should now show the page you were working on.
 
 You may also put your files in subfolders. If you were to create the file
 `site/assets/my_style.css`, it should be accessible through
-`http://localhost:4567/assets/my_style.css`.
+`http://localhost:4833/assets/my_style.css`.
 
 Dynamic files
 -------------
 
-There are files with two extensions, for instance, `index.html.haml`. If a file
-ends in one of Hyde's dynamic file extensions (like `.haml`), it will be stripped
-out and the file will be rendered using the template engine in that extension (in
-this case, HAML).
-
-More about this in the next section.
+Hyde supports many templating languages like HAML, Less, and ERB (more on this later).
+If your file ends in one of these supported extensions (e.g., `index.haml`), it
+is assumed to be a dynamic file and will be rendered by it's corresponding templating
+engine (in this case, HAML).
 
 Building HTML files
 -------------------

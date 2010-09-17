@@ -60,4 +60,14 @@ In your files, call a partial by:
     <!-- site/index.html.erb -->
     <%= partial 'shared/product', { :name => '5MP Camera CX-300', :description => 'This is a camera with an adjustable focal length and Bluetooth support.' } %>
 
+Partials in HAML files
+----------------------
 
+HAML support in Hyde has the `escape_html` option on by default. You
+will need to use `!= partial` instead of `= partial`.
+
+    -# Don't forget the exclamation point!
+    != partial 'shared/product'
+
+If you omit the `!`, the partial will be rendered with it's HTML code
+escaped.

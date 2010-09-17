@@ -40,9 +40,9 @@ Introduction
 - `++++` {file:Installation Installation} -- Start here
 - `++++` {file:GettingStarted Getting started}
 - `++--` {file:TemplateLanguages Template languages}
-- `----` {file:Layouts Layouts}
-- `----` {file:Partials Partials}
-- `----` {file:Metadata Metadata}
+- `+---` {file:Layouts Layouts}
+- `+++-` {file:Partials Partials}
+- `++++` {file:Metadata Metadata}
 - `----` {file:Configuration Configuration}
 
 Extending Hyde

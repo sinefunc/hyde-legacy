@@ -26,14 +26,14 @@ Hyde supports the following languages out-of-the-box:
 
 This means that the following files will be translated accordingly:
 
- | products.html.haml       | becomes `products.html` (rendered through HAML)       |
- | control.css.less         | becomes `control.css` (rendered through Less CSS)     |
- | site.xml.erb             | becomes `site.xml` (rendered through Embedded Ruby)   |
+ | products.haml       | becomes `products.html` (rendered through HAML)       |
+ | control.less        | becomes `control.css` (rendered through Less CSS)     |
+ | site.xml.erb        | becomes `site.xml` (rendered through Embedded Ruby)   |
 
 Example
 -------
 
-When creating a new site, have a look at `index.html.haml`.
+When creating a new site, have a look at `index.haml`.
 
 ...
 
@@ -45,7 +45,7 @@ Headers
 Layouts
 -------
 
-Layouts are supported for these languages.
+Layouts are supported for HAML, Markdown, Textile and ERB languages.
 
 ...
 
