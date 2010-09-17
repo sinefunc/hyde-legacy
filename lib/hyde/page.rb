@@ -90,7 +90,13 @@ module Hyde
     end
 
     def <=>(other)
-      (self.meta.position || 9999) <=> (other.meta.position || 9999)
+      result = self.position <=> other.position
+      result ||= self.position.to_s <=> other.position.to_s
+      result
+    end
+
+    def position
+      meta.position || title
     end
 
     def parent
