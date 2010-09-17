@@ -25,7 +25,8 @@ module Hyde
 
     def self.project
       if $project.nil?
-        log "Error: Hyde config file not found. (looking for: hyde.conf, _config.yml)"
+        files = Hyde::Project.config_filenames.join(", ")
+        log "Error: Hyde config file not found. (looking for: #{files})"
         log "Run this command in a Hyde project directory.\nTo start a new Hyde project, type `hyde create <name>`"
         exit
       end

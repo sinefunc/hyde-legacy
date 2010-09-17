@@ -125,6 +125,10 @@ module Hyde
       end
     end
 
+    def self.config_filenames
+      ['_config.yml', 'hyde.conf', '.hyderc']
+    end
+
     protected
 
     # Looks for the hyde config file to determine the project root.
@@ -134,7 +138,7 @@ module Hyde
       ret = nil
       while ret.nil?
         # See if any of these files exist
-        ['_config.yml', 'hyde.conf'].each do |config_name|
+        self.class.config_filenames.each do |config_name|
           config_file = File.join(check, config_name)
           ret ||= [check, config_file]  if File.exists? config_file
         end
