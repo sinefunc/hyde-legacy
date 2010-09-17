@@ -1,14 +1,13 @@
-\nn.n.n / 2010-09-08 \n==================\n
-  * fixes for non-HAML content_for
-  * Added support for args in content_yield; improved on content-for test case
-  * Fixed yield_content for HAML; fixed Page#referrer; added rudimentary tests for content_for
-  * Added support for blocks in content_for; partials_path is now not ignored by default
 v0.0.6
 ------
 
- - Partials path is now not ignored by default
- - Added support for blocks for `yield_content` (as default text)
- - `Page#referrer` now is a page (instead of a string of the name)
+ - Added support for blocks for `yield_content` (as default text).
+ - `Page#referrer` now is a page (instead of a string of the name).
+ - Partials path is now not ignored by default.
+ - Add support for page ordering (by the `position` key in metadata).
+ - You can now start an IRB session with the `hyde console` command.
+ - Implement traversion methods for page: #next, #previous, #siblings,
+   and #parent.
 
 v0.0.5 - 2010-05-30
 -------------------
@@ -23,4 +22,5 @@ v0.0.5 - 2010-05-30
 
 v0.0.4 - 2010-05-25
 -------------------
+
  - First public release
