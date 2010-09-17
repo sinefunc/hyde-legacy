@@ -25,9 +25,9 @@ module Hyde
     # A reference to the parent {Project} instance
     attr_reader :project
 
-    attr_accessor :layout
-
     attr_accessor :referrer
+
+    DEFAULT_LAYOUT = 'default'
 
     # Factory
     #
@@ -40,8 +40,20 @@ module Hyde
       data = @meta | data
       data[:page] ||= self
       output = @renderer.render(data, &block)
-      output = @layout.render(data) { output }  unless @layout.nil?
+      output = layout.render(data) { output }  unless layout.nil?
       output
+    end
+
+    def layout=(val)
+      @layout = val
+    end
+
+    def layout
+      begin
+        @layout || project[DEFAULT_LAYOUT, :Layout]
+      rescue NotFound
+        nil
+      end
     end
 
     def title
