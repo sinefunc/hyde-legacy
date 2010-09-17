@@ -55,6 +55,63 @@ module Hyde
       (filename).to_sym
     end
 
+    def <=>(other)
+      (self.meta.position || 9999) <=> (other.meta.position || 9999)
+    end
+
+    def parent
+      folder = File.dirname(@name)
+      folder = File.join(folder, '..')  if is_index?
+      folder = File.expand_path(folder)
+
+      files = Dir[File.join(folder, 'index.*')]
+      return nil  if files.empty?
+
+      page = PageFactory.create(files.first, @project)
+      return nil  if page === self
+
+      page
+    end
+
+    def siblings
+      folder = File.dirname(@name)
+      folder = File.join(folder, '..')  if is_index?
+
+      # Sanity check: don't go beyond the root
+      return nil  unless File.expand_path(folder).include?(File.expand_path(@project.root(:site)))
+
+      files  = Dir[@project.root(:site, folder, '*')]
+      files.inject([]) do |a, name|
+        if File.directory?(name)
+          name = Dir[File.join(name, 'index.*')].first
+          a << PageFactory.create(name, @project)  unless name.nil?
+
+        else
+          page = PageFactory.create name, @project
+          a << page  unless page.is_index?
+
+        end
+        a
+      end.sort
+    end
+
+    def ===(other)
+      return false  if other.nil?
+      super || (File.expand_path(self.filename) === File.expand_path(other.filename))
+    end
+
+    def next
+      siblings.each_cons(2) { |(i, other)| return other  if i === self }
+    end
+
+    def previous
+      siblings.each_cons(2) { |(other, i)| return other  if i === self }
+    end
+
+    def is_index?
+      !@name.match(/(^|\/)index/).nil?
+    end
+
     protected
 
     # Constructor.

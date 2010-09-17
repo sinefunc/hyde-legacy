@@ -1,6 +1,15 @@
 module Hyde
   class PageFactory
+    # Creates a Page with the right class, as defined in the Page's metadata.
+    #
+    # Params:
+    #   path   - A path, or a filename
+    #
     def self.create(path, project, def_page_class = Page)
+      # Remove prefix
+      path.gsub!(project.root(:site), '')
+      path.gsub!(/^\/+/, '')
+
       ext = File.extname(path)
       begin
         do_create path, project, def_page_class
