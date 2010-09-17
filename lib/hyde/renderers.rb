@@ -7,7 +7,7 @@ module Hyde
       def evaluate(scope, data={}, &block)
         require_lib 'haml'
         begin
-          @engine = ::Haml::Engine.new(markup, {})
+          @engine = ::Haml::Engine.new(markup, {:escape_html => true})
           @engine.render scope, data, &block
         rescue ::Haml::SyntaxError => e
           raise Hyde::RenderError.new(e.message, :line => e.line)

@@ -67,7 +67,7 @@ module Hyde
         project.build ostream
       end
     end
-
+    
     class Start < CLICommand
       desc "Starts the local webserver"
       def self.run(*a)
