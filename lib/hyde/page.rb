@@ -107,12 +107,23 @@ module Hyde
       page
     end
 
+    def children
+      return []  unless is_index?
+      folder = File.dirname(@name)
+
+      get_pages_from folder
+    end
+
     def siblings
       folder = File.dirname(@name)
       folder = File.join(folder, '..')  if is_index?
 
+      get_pages_from folder
+    end
+
+    def get_pages_from(folder)
       # Sanity check: don't go beyond the root
-      return nil  unless File.expand_path(folder).include?(File.expand_path(@project.root(:site)))
+      return []  unless File.expand_path(folder).include?(File.expand_path(@project.root(:site)))
 
       files  = Dir[@project.root(:site, folder, '*')]
       files.inject([]) do |a, name|
