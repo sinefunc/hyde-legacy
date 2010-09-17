@@ -31,6 +31,7 @@ module Hyde
     protected
 
     def self.get_page_info(path, project, page_class)
+      puts "Getting page info for #{path}"
       renderer = nil
       filename = page_class.get_filename(path, project)
 
@@ -38,7 +39,9 @@ module Hyde
         raise NotFound, "`#{path}` is a directory, not a file"
 
       elsif File.exists? filename
-        renderer = Hyde::Renderer::Passthru
+        ext = File.extname(filename)[1..-1]
+        puts "Checking out #{filename} -- #{ext}"
+        renderer = Hyde::Renderer.get(ext)
 
       else
         # Look for the file
@@ -52,7 +55,7 @@ module Hyde
           begin
             ext      = File.extname(match)[1..-1].capitalize.to_sym
             exts     << File.extname(match)
-            r_class  = Hyde::Renderers.const_get(ext)
+            r_class  = Hyde::Renderers.const_get(ext) # .get(ext, nil)
             renderer ||= r_class
             filename = match
           rescue NoMethodError
@@ -66,6 +69,7 @@ module Hyde
           if renderer.nil?
       end
 
+          puts "Found renderer: #{renderer} fn: #{filename}i"
       { :renderer   => renderer,
         :filename   => filename,
         :page_class => page_class

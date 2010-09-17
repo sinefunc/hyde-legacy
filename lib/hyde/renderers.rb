@@ -13,6 +13,8 @@ module Hyde
     end
 
     class Erb < Renderer::Parsable
+      def self.default_ext() '.html'; end
+
       def evaluate(scope, data={}, &block)
         require_lib 'erb'
         @engine = ::ERB.new markup
@@ -47,6 +49,8 @@ module Hyde
     #end
 
     class Md < Renderer::Parsable
+      def self.default_ext() '.html'; end
+
       def evaluate(s, d={}, &block)
         require_lib 'maruku'
         Maruku.new(markup).to_html
@@ -54,9 +58,7 @@ module Hyde
     end
 
     class Textile < Renderer::Parsable
-      def self.default_ext
-        '.css'
-      end
+      def self.default_ext() '.html'; end
 
       def evaluate(s, d={}, &block)
         require_lib 'redcloth', 'RedCloth'

@@ -2,6 +2,18 @@ require "ostruct"
 
 module Hyde
   module Renderer
+    extend self
+
+    def get(extname, default=Hyde::Renderer::Passthru)
+      klass = extname.to_s.capitalize.to_sym
+
+      begin
+        Hyde::Renderers.const_get(klass)
+      rescue NameError
+        default
+      end
+    end
+
     class Base
       include Hyde::Utils
 
@@ -24,6 +36,10 @@ module Hyde
       def markup
         File.open(filename) { |f| @markup = f.read }  unless @markup
         @markup
+      end
+
+      def default_ext(*a)
+        self.class.default_ext(*a)
       end
 
       def self.default_ext

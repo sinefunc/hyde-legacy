@@ -10,6 +10,7 @@ v0.0.6
    and #parent.
  - Implement the 'page' variable to be available in pages.
  - Add Page#title.
+ - Add Page#path.
 
 v0.0.5 - 2010-05-30
 -------------------

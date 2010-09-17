@@ -48,6 +48,16 @@ module Hyde
       meta.title || File.basename(filename, '.*')
     end
 
+    # Returns the URL path for the page.
+    def path
+      return @url  unless @url.nil?
+
+      url = File.split(@name)
+      url[1] = File.basename(url[1], '.*')
+      url[1] = (url[1] + @renderer.default_ext)  unless url[1].include?('.')
+      @url = '/' + url.join('/')
+    end
+
     def get_binding #(&blk)
       binding
     end
@@ -124,6 +134,7 @@ module Hyde
     # Don't use me: use {Project#[]}
     #
     def initialize(path, project, renderer, filename)
+      puts "Created #{path} with renderer #{renderer}"
       @project    = project
       @name     ||= path
       @meta     ||= Meta.new self
