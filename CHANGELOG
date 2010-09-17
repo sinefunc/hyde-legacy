@@ -8,6 +8,8 @@ v0.0.6
  - You can now start an IRB session with the `hyde console` command.
  - Implement traversion methods for page: #next, #previous, #siblings,
    and #parent.
+ - Implement the 'page' variable to be available in pages.
+ - Add Page#title.
 
 v0.0.5 - 2010-05-30
 -------------------

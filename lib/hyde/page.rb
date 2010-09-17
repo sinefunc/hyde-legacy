@@ -38,9 +38,14 @@ module Hyde
     # Returns the rendered output.
     def render(data = {}, &block)
       data = @meta | data
+      data[:page] ||= self
       output = @renderer.render(data, &block)
       output = @layout.render(data) { output }  unless @layout.nil?
       output
+    end
+
+    def title
+      meta.title || File.basename(filename, '.*')
     end
 
     def get_binding #(&blk)
