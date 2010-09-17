@@ -42,7 +42,7 @@ In this example, we'll create a simple helper function.
     # extensions/hyde-blog/hyde-blog.rb
     module Hyde
       module Helpers
-        module BlogHelpers
+        module FormHelpers
           def form_tag(meth, action, &b)
             [ "<form method='#{meth}' action='#{action}'>",
               b.call,
@@ -57,7 +57,7 @@ In your project's site files, you can then now use this helper.
 
     # site/my_page.html.haml
     %h1 My form
-    = form_tag 'post', '/note/new' do
+    != form_tag 'post', '/note/new' do
       %p
         %label Your name:
         %input{ :type => 'text', :name => 'name' }
