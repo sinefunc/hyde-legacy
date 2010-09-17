@@ -50,6 +50,11 @@ Extending Hyde
 
 - `+++-` {file:ExtendingHyde Extending Hyde}
 
+Tips and tricks
+---------------
+
+- `+++-` {file:Tips Tips}
+
 Basic info
 ----------
 

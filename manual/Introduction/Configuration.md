@@ -54,6 +54,14 @@ port
 
     port: 4999
 
+gems
+: This is a list of Ruby gems to be autoloaded into Hyde. Some extensions
+  are available as gems and may simply be added here to be used. Example:
+
+    gems:
+      - hyde-rst
+      - hyde-zip
+
 Hidden hyde config file
 -----------------------
 
