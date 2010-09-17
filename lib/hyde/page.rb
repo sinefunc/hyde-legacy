@@ -140,6 +140,11 @@ module Hyde
       end.sort
     end
 
+    # Returns an array of the page's ancestors, starting from the root page.
+    def breadcrumbs
+      @crumbs ||= parent.nil? ? [] : (parent.breadcrumbs + [parent])
+    end
+
     def ===(other)
       return false  if other.nil?
       super || (File.expand_path(self.filename) === File.expand_path(other.filename))

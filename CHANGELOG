@@ -11,6 +11,7 @@ v0.0.6
  - Implement the 'page' variable to be available in pages.
  - Add Page#title.
  - Add Page#path.
+ - Add Page#breadcrumbs.
  - Implement Utils#escape_html.
  - Hyde now always tries 'layouts/default.*' as the default layout, if none's
    specified. (TODO: layout: false)
