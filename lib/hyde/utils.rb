@@ -1,5 +1,15 @@
 module Hyde
   module Utils
+  protected
+    def escape_html(str)
+      str.
+        gsub('&', '&amp;').
+        gsub('"', '&quot;').
+        gsub('<', '&lt;').
+        gsub('>', '&gt;').
+        gsub("'", '&39;')
+    end
+
     def same_file?(a, b)
       File.expand_path(a) == File.expand_path(b)
     end

@@ -11,6 +11,7 @@ v0.0.6
  - Implement the 'page' variable to be available in pages.
  - Add Page#title.
  - Add Page#path.
+ - Implement Utils#escape_html.
 
 v0.0.5 - 2010-05-30
 -------------------
