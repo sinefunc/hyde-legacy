@@ -31,7 +31,6 @@ module Hyde
     protected
 
     def self.get_page_info(path, project, page_class)
-      puts "Getting page info for #{path}"
       renderer = nil
       filename = page_class.get_filename(path, project)
 
@@ -40,7 +39,6 @@ module Hyde
 
       elsif File.exists? filename
         ext = File.extname(filename)[1..-1]
-        puts "Checking out #{filename} -- #{ext}"
         renderer = Hyde::Renderer.get(ext)
 
       else
@@ -69,7 +67,6 @@ module Hyde
           if renderer.nil?
       end
 
-          puts "Found renderer: #{renderer} fn: #{filename}i"
       { :renderer   => renderer,
         :filename   => filename,
         :page_class => page_class

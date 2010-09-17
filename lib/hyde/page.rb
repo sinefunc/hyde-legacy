@@ -134,7 +134,6 @@ module Hyde
     # Don't use me: use {Project#[]}
     #
     def initialize(path, project, renderer, filename)
-      puts "Created #{path} with renderer #{renderer}"
       @project    = project
       @name     ||= path
       @meta     ||= Meta.new self
