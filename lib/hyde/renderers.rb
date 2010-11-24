@@ -47,14 +47,14 @@ module Hyde
 
     protected
       def engine_options
-        { :syntax => :sass }
+        { :syntax => :sass, :load_paths => [File.dirname(@filename)] }
       end
     end
 
     class Scss < Sass
     protected
       def engine_options
-        { :syntax => :scss }
+        super.merge :syntax => :scss
       end
     end
 
