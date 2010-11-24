@@ -5,9 +5,9 @@ module Hyde
       def self.default_ext() '.html'; end
 
       def evaluate(scope, data={}, &block)
-        require_lib 'haml'
+        require 'haml'
         begin
-          @engine = haml_engine::Engine.new(markup, engine_options)
+          @engine = ::Haml::Engine.new(markup, engine_options)
           @engine.render scope, data, &block
         rescue ::Haml::SyntaxError => e
           raise Hyde::RenderError.new(e.message, :line => e.line)
@@ -15,10 +15,6 @@ module Hyde
       end
 
     protected
-      def haml_engine
-        ::Haml
-      end
-
       def engine_options
         { :escape_html => true }
       end
@@ -35,20 +31,27 @@ module Hyde
       end
     end
 
-    class Sass < Renderer::Haml
+    class Sass < Haml
+      def self.layoutable?()  false; end
       def self.default_ext() '.css'; end
 
-    protected
-      def haml_engine
-        ::Sass
+      def evaluate(scope, data={}, &block)
+        require 'sass'
+        begin
+          @engine = ::Sass::Engine.new(markup, engine_options)
+          @engine.render
+        rescue ::Sass::SyntaxError => e
+          raise Hyde::RenderError.new(e.message, :line => e.line)
+        end
       end
 
+    protected
       def engine_options
-        { :syntax => sass }
+        { :syntax => :sass }
       end
     end
 
-    class Scss < Renderer::Sass
+    class Scss < Sass
     protected
       def engine_options
         { :syntax => :scss }
@@ -73,13 +76,6 @@ module Hyde
         end
       end
     end
-
-    #class Sass < Renderer::Base
-    #  def evaluate(scope, data={}, &block)
-    #    require 'haml'
-    #    @engine = ::Sass::Engine.new(File.open(filename))
-    #  end
-    #end
 
     class Md < Renderer::Parsable
       def self.layoutable?()  true; end
