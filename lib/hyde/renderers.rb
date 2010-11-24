@@ -7,11 +7,20 @@ module Hyde
       def evaluate(scope, data={}, &block)
         require_lib 'haml'
         begin
-          @engine = ::Haml::Engine.new(markup, {:escape_html => true})
+          @engine = haml_engine::Engine.new(markup, engine_options)
           @engine.render scope, data, &block
         rescue ::Haml::SyntaxError => e
           raise Hyde::RenderError.new(e.message, :line => e.line)
         end
+      end
+
+    protected
+      def haml_engine
+        ::Haml
+      end
+
+      def engine_options
+        { :escape_html => true }
       end
     end
 
@@ -23,6 +32,26 @@ module Hyde
         require_lib 'erb'
         @engine = ::ERB.new markup
         eval @engine.src, scope
+      end
+    end
+
+    class Sass < Renderer::Haml
+      def self.default_ext() '.css'; end
+
+    protected
+      def haml_engine
+        ::Sass
+      end
+
+      def engine_options
+        { :syntax => sass }
+      end
+    end
+
+    class Scss < Renderer::Sass
+    protected
+      def engine_options
+        { :syntax => :scss }
       end
     end
 

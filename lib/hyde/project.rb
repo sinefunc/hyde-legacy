@@ -22,7 +22,7 @@ module Hyde
       where = ''
       where = @config.send("#{args.shift.to_s}_path")  if args[0].class == Symbol
       path = args
-      File.expand_path(File.join [@root, where, path].reject(&:empty?))
+      File.expand_path File.join([@root, where, path].reject { |s| s.empty? })
     end
 
     # Can raise a NoRootError
@@ -155,13 +155,13 @@ module Hyde
     #
     def load_extensions
       # Load the init.rb file
-      require(root 'init.rb')  if File.exists?(root 'init.rb')
+      require root('init.rb')  if File.exists?(root 'init.rb')
 
       # Load the gems in the config file
       @config.gems.each { |gem| require gem }
 
       # Load the extensions
-      ext_roots = Dir[root :extensions, '*'].select { |d| File.directory? d }
+      ext_roots = Dir[root(:extensions, '*')].select { |d| File.directory? d }
       ext_roots.each do |dir|
         ext = File.basename(dir)
 
