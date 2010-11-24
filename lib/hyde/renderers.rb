@@ -47,7 +47,7 @@ module Hyde
 
     protected
       def engine_options
-        { :syntax => :sass, :load_paths => [File.dirname(@filename)] }
+        { :syntax => :sass, :load_paths => [File.dirname(@filename)], :cache => false }
       end
     end
 
