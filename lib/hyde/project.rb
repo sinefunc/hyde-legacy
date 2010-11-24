@@ -112,8 +112,15 @@ module Hyde
         root(:layouts, '**/*'),
         root(:extensions, '**/*'),
         root(:output, '**/*'),
+        custom_ignored_files,
         @config_file
-      ].uniq
+      ].flatten.uniq
+    end
+
+    def custom_ignored_files
+      list = @config.send("ignore")
+      return []  unless list.is_a?(Array)
+      Dir[*(list.map { |path| root(:site, path) })]
     end
 
     # Returns a list of ignored files based on the {ignore_list}.
