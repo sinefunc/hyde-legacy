@@ -61,7 +61,7 @@ module Hyde
     #
     def all(type=nil)
       unless type
-        @all ||= files.map { |f| self[f] }
+        @all = files.map { |f| self[f] }
       else
         all.select { |page| page.class == type }
       end
@@ -99,7 +99,7 @@ module Hyde
     # Returns a list of all URL paths
     #
     def files
-      @files ||= Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
+      @files = Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
         # Make sure its the canonical name
         path = File.expand_path(match)
         file = path.gsub /^#{Regexp.escape root(:site)}\/?/, ''

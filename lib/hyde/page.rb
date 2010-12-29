@@ -69,12 +69,16 @@ module Hyde
 
     # Returns the URL path for the page.
     def path
-      return @url  unless @url.nil?
-
-      url = File.split(@name)
-      url[1] = File.basename(url[1], '.*')
-      url[1] = (url[1] + @renderer.default_ext)  unless url[1].include?('.')
-      @url = '/' + url.join('/')
+      @url ||= begin
+        if renderer.is_a?(Renderer::Passthru)
+          '/' + @name
+        else
+          url = File.split(@name)
+          url[1] = File.basename(url[1], '.*')
+          url[1] = (url[1] + @renderer.default_ext)  unless url[1].include?('.')
+          '/' + url.join('/')
+        end
+      end
     end
 
     def output_path
