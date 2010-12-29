@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{hydeweb}
-  s.version = "0.0.8.pre1"
+  s.version = "0.0.8.pre2"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Rico Sta. Cruz", "Sinefunc, Inc."]
