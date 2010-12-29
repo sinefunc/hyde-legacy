@@ -45,7 +45,7 @@ module Hyde
   def version
     @version ||= begin
       v = File.open(File.join(File.dirname(__FILE__), '..', 'VERSION')) { |f| f.read.strip }
-      v = v.match(/^([0-9\.])+/)[0] rescue v
+      v = v.match(/^[0-9]+(\.[0-9]+){2}/)[0] rescue v
     end
   end
 
