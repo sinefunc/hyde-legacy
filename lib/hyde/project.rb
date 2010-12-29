@@ -53,9 +53,18 @@ module Hyde
       Hyde::Page[name, self, default_class]
     end
 
-    # Returns all.
-    def all
-      @all ||= files.map { |f| self[f] }
+    # Returns all pages.
+    #
+    # @example
+    #   @project.all                #=> [1, 2, 3]
+    #   @project.all(Hyde::Post)    #=> [1]
+    #
+    def all(type=nil)
+      unless type
+        @all ||= files.map { |f| self[f] }
+      else
+        all.select { |page| page.class == type }
+      end
     end
 
     # Writes the output files.

@@ -2,6 +2,8 @@ v0.0.8
 ------
 
  - Add support for subclassing. (just add a 'type' meta)
+ - Implement Project#all.
+ - Implement Page#all and Page#all(type).
 
 v0.0.7
 ------
