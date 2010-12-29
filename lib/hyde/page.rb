@@ -37,11 +37,14 @@ module Hyde
 
     # Returns the rendered output.
     def render(data = {}, &block)
-      data = @meta | data
-      data[:page] ||= self
-      output = @renderer.render(data, &block)
-      output = layout.render(data) { output }  unless layout.nil?
+      output = content(data, &block)
+      output = layout.render(get_data(data)) { output }  unless layout.nil?
       output
+    end
+
+    # Returns the HTML content.
+    def content(data = {}, &block)
+      @renderer.render(get_data(data), &block)
     end
 
     def layout=(val)
@@ -192,6 +195,15 @@ module Hyde
     
     def self.get_filename(path, project)
       project.root(:site, path)
+    end
+
+  private
+
+    # Data for rendering
+    def get_data(data)
+      data = @meta | data
+      data[:page] ||= self
+      data
     end
   end
 end

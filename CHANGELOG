@@ -7,6 +7,7 @@ v0.0.8
  - Fix binary files losing extensions on 'hyde build'.
  - Allow "layout: false" to ensure that a page doesn't have a layout.
  - Fix bug where "index.html.haml" and "index.rss.haml" clash.
+ - Implement Page#content.
 
 v0.0.7
 ------
