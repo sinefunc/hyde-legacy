@@ -14,8 +14,10 @@ module Hyde
 
     def layout=(value)
       super value
-      @page.layout = @page.project[value, :Layout]
-      @page.layout.referrer = (page.referrer || page)
+      if value.is_a?(String)
+        @page.layout = @page.project[value, :Layout]
+        @page.layout.referrer = (page.referrer || page)
+      end
     end
   end
 end

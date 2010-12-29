@@ -5,6 +5,7 @@ v0.0.8
  - Implement Project#all.
  - Implement Page#all and Page#all(type).
  - Fix binary files losing extensions on 'hyde build'.
+ - Allow "layout: false" to ensure that a page doesn't have a layout.
 
 v0.0.7
 ------

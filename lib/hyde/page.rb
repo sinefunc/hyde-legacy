@@ -50,7 +50,7 @@ module Hyde
 
     def layout
       begin
-        @layout ||= project[DEFAULT_LAYOUT, :Layout]  if !@renderer.nil? and @renderer.layoutable?
+        @layout ||= project[DEFAULT_LAYOUT, :Layout]  if !@renderer.nil? and @renderer.layoutable? and meta.layout != false
         @layout
       rescue NotFound
         nil
