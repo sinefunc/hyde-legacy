@@ -73,7 +73,7 @@ module Hyde
         if renderer.is_a?(Renderer::Passthru)
           '/' + @name
         else
-          url = File.split(@name)
+          url = [ File.dirname(@name), File.basename(@filename) ]
           url[1] = File.basename(url[1], '.*')
           url[1] = (url[1] + @renderer.default_ext)  unless url[1].include?('.')
           '/' + url.join('/')
