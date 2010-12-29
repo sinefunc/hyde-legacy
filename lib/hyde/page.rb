@@ -77,6 +77,10 @@ module Hyde
       @url = '/' + url.join('/')
     end
 
+    def output_path
+      File.join(project.config.output_path, path)
+    end
+
     def get_binding #(&blk)
       binding
     end

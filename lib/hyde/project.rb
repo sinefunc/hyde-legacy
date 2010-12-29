@@ -53,6 +53,11 @@ module Hyde
       Hyde::Page[name, self, default_class]
     end
 
+    # Returns all.
+    def all
+      files.map { |f| self[f] }
+    end
+
     # Writes the output files.
     # @param
     #   ostream    - (Stream) Where to send the messages
@@ -65,12 +70,12 @@ module Hyde
       end
 
       begin
-        files.each do |path|
-          ostream << " * #{@config.output_path}/#{path}\n"  if ostream
+        all.each do |page|
+          ostream << " * #{page.output_path}\n"  if ostream
 
           begin
-            rendered = self[path].render
-            force_file_open(root(:output, path)) { |file| file << rendered }
+            rendered = page.render
+            force_file_open(page.output_path) { |file| file << rendered }
 
           rescue RenderError => e
             ostream << " *** Error: #{e.to_s}".gsub("\n", "\n *** ") << "\n"
