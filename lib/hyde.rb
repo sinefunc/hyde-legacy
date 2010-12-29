@@ -43,7 +43,10 @@ module Hyde
   extend self
 
   def version
-    @version ||= File.open(File.join(File.dirname(__FILE__), '..', 'VERSION')) { |f| f.read.strip }
+    @version ||= begin
+      v = File.open(File.join(File.dirname(__FILE__), '..', 'VERSION')) { |f| f.read.strip }
+      v = v.match(/^([0-9\.])+/)[0] rescue v
+    end
   end
 
   def compatible_with?(given_version)
