@@ -55,7 +55,7 @@ module Hyde
 
     # Returns all.
     def all
-      files.map { |f| self[f] }
+      @all ||= files.map { |f| self[f] }
     end
 
     # Writes the output files.
@@ -90,7 +90,7 @@ module Hyde
     # Returns a list of all URL paths
     #
     def files
-      @file_list = Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
+      @files ||= Dir[File.join(root(:site), '**', '*')].inject([]) do |a, match|
         # Make sure its the canonical name
         path = File.expand_path(match)
         file = path.gsub /^#{Regexp.escape root(:site)}\/?/, ''
@@ -167,7 +167,7 @@ module Hyde
     #
     def load_extensions
       # Load the init.rb file
-      require root('init.rb')  if File.exists?(root 'init.rb')
+      require root('init.rb')  if File.exists?(root('init.rb'))
 
       # Load the gems in the config file
       @config.gems.each { |gem| require gem }

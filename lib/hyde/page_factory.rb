@@ -10,6 +10,7 @@ module Hyde
       path.gsub!(project.root(:site), '')
       path.gsub!(/^\/+/, '')
 
+      # Try: "file.html" => "file.html", "file" [autoguess], "file/index.html"
       ext = File.extname(path)
       begin
         do_create path, project, def_page_class
@@ -25,11 +26,23 @@ module Hyde
     def self.do_create(path, project, def_page_class = Page)
       info = get_page_info(path, project, def_page_class)
       page_class = info[:page_class]
-      page_class.new(path, project, info[:renderer], info[:filename])
+      page = page_class.new(path, project, info[:renderer], info[:filename])
+
+      # What if it wants to be a different class?
+      if page.meta.type
+        begin
+          klass = Hyde.const_get(page.meta.type.to_sym)
+          page  = klass.new(path, project, info[:renderer], info[:filename])
+        rescue NameError #pass
+        end
+      else
+        page
+      end
     end
 
     protected
 
+    # Returns the renderer, filename, page class
     def self.get_page_info(path, project, page_class)
       renderer = nil
       filename = page_class.get_filename(path, project)
@@ -44,8 +57,9 @@ module Hyde
       else
         # Look for the file
         matches = Dir["#{filename}.*"]
-        raise NotFound, "Can't find `#{path}{,.*}` -- #{filename}" \
-          if matches.empty?
+        if matches.empty?
+          raise NotFound, "Can't find `#{path}{,.*}` -- #{filename}"
+        end
 
         # Check for a matching renderer
         exts = []
